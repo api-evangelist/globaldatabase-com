@@ -1,0 +1,80 @@
+generated: '2026-09-19'
+method: searched
+spec_type: Webhooks
+source: https://api.globaldatabase.com/docs/v2/#watch-companies-api (Start/Stop Watch Company, Watched Company Fields, Set/Get Callback URL, Companies Webhook, All Companies Events)
+asyncapi_published: false
+asyncapi_note: 'The provider publishes no AsyncAPI document (none linked from the docs, none on the GitHub accounts, /asyncapi.yaml not served). This file captures the documented webhook surface verbatim from the HTML reference; nothing is generated.'
+summary: >-
+  The Watch Companies API lets an API consumer subscribe to changes on individual companies and
+  receive them two ways: pushed to a single per-account callback URL (signed webhook), or pulled
+  via GET /v2/companies/{id}/watch/events. Subscriptions are per company and per field list;
+  the callback URL is account-wide. The marketing page for Portfolio Monitoring lists 38 change
+  types across 400+ registries (https://www.globaldatabase.com/continuous-monitoring).
+registration:
+  set_callback: {method: PUT, url: 'https://api.globaldatabase.com/v2/companies/watch/callback', body: '{"callback": "<https URL>"}', response: '{"callback": "<url>", "secret": "<64-hex>"}'}
+  get_callback: {method: GET, url: 'https://api.globaldatabase.com/v2/companies/watch/callback', response: '{"callback": "<url>", "secret": "<64-hex>"}'}
+  secret_semantics: 'Generated automatically the first time a callback is set; the API returns it and it stays the same across later calls even if the callback URL changes. Used to verify X-GD-Signature on incoming webhooks.'
+  subscribe: {method: 'POST (also documented as PUT)', url: 'https://api.globaldatabase.com/v2/companies/{id}/watch/start', body: '{"fields": ["company.name", ...]}'}
+  unsubscribe: {method: DELETE, url: 'https://api.globaldatabase.com/v2/companies/{id}/watch/stop'}
+  list_subscriptions: {method: GET, url: 'https://api.globaldatabase.com/v2/companies/watch?date=YYYY-MM-DD'}
+  watched_fields: {get: 'GET /v2/companies/{id}/watch/fields', add: 'PUT /v2/companies/{id}/watch/fields/add', remove: 'PUT /v2/companies/{id}/watch/fields/remove'}
+security:
+  signature_header: X-GD-Signature
+  secret: per-account, returned by PUT/GET /v2/companies/watch/callback
+  algorithm: 'Not stated in the docs (the secret is a 64-hex string, consistent with an HMAC-SHA256 key; not asserted).'
+  transport: HTTPS callback URL supplied by the consumer
+delivery:
+  event_payload:
+    shape: '{"company_data": {"id": int, "name": string, "registration_number": string, "country_code": string, "date": ISO-8601}, "field": "<watched field>", "status": "UPDATE", "new_value": any, "old_value": any}'
+    example_from_docs: '{"company_data": {"id": 9, "name": "TESCO PLC", "registration_number": "00445790", "country_code": "GB", "date": "2021-09-15T18:53:25Z"}, "field": "company.email", "status": "UPDATE", "new_value": "email@example.com", "old_value": ...}'
+  retries: not documented
+  ordering: not documented
+  pull_alternative:
+    endpoint: 'GET https://api.globaldatabase.com/v2/companies/{id}/watch/events?from_date&to_date&fields&page&per_page'
+    response: '{"data": [{"status": "UPDATED", "message": string, "date_created": ISO-8601, "event_type": "<field>"}], "total_results": int, "pages": int}'
+events:
+  keyed_by: watched field name (the `field` / `event_type` value)
+  fields_documented_in_start_watch_example:
+  - company.name
+  - company.status
+  - company.registration_number
+  - company.vat
+  - company.address_street
+  - company.email
+  - company.phone
+  - company.fax
+  - company.website
+  - company.bank
+  - company.employees_number
+  - company.trading_activity_export
+  - company.trading_activity_import
+  - company.group_structure
+  - company.financial
+  - office.identity
+  - office.email
+  - office.fax
+  - office.phone
+  - office.website
+  - address.street
+  - shareholder.holding
+  - shareholder.holding_historical
+  - shareholder.exit_precise
+  - shareholder.exit_approximate
+  - shareholder.share_type
+  - shareholder.share_price
+  - employee.appointment
+  - employee.phone
+  - employee.email
+  - employee.resignation_date
+  - officer.appointment
+  - officer.phone
+  - officer.email
+  - officer.resignation_date
+  - vat_number
+  field_descriptions_sample: {officer.appointment: Officer appointed, officer.phone: 'Officer phone added, changed or removed', officer.email: 'Officer email added, changed or removed', officer.resignation_date: Officer resignation date registered}
+  statuses: [UPDATE, UPDATED]
+marketing_change_types:
+  source: https://www.globaldatabase.com/continuous-monitoring
+  count: 38
+  examples: [New shareholder filed, Director appointed, Status changed to dissolved, Annual accounts filed, Registered address changed, Director resigned, Status changed to liquidation, Insolvency filing, New ultimate beneficial owner, Persons with significant control changed, Charge registered, Sanctions list addition, Share capital changed]
+  note: 'Marketing vocabulary; the API keys events by field name as listed above.'

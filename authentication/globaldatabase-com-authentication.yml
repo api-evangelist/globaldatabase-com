@@ -1,0 +1,57 @@
+generated: '2026-09-19'
+method: searched
+source: https://api.globaldatabase.com/docs/v2/#authentication + https://mcp.globaldatabase.com/ + https://mcp.globaldatabase.com/.well-known/oauth-authorization-server + https://github.com/global-database/mcp-server#authentication
+docs: https://api.globaldatabase.com/docs/v2/#authentication
+probed: >-
+  2026-09-19 unauthenticated POST https://api.globaldatabase.com/v2/overview, POST /v2/ai/query
+  and GET /v2/metrics all returned HTTP 401 application/json {"detail":"Authentication
+  credentials were not provided."} with `WWW-Authenticate: Token` — the Django REST Framework
+  TokenAuthentication challenge, matching the documented `Authorization: Token <key>` scheme.
+  POST https://mcp.globaldatabase.com/mcp returned 401 with `WWW-Authenticate: Bearer
+  error="invalid_token" ... resource_metadata="https://mcp.globaldatabase.com/.well-known/oauth-protected-resource/mcp"`.
+summary:
+  types: [apiKey, oauth2]
+  api_key_in: [header]
+  oauth2_flows: [authorizationCode]
+  note: >-
+    Two surfaces, two schemes. The v2 REST API (api.globaldatabase.com) uses a static API key
+    sent as `Authorization: Token <key>` (not Bearer). The hosted MCP server uses OAuth 2.1
+    with PKCE and dynamic client registration; the user's REST API key is entered once in the
+    browser login page and bound into the access-token claims server-side, so it never travels
+    as a tool argument.
+schemes:
+- name: TokenAuth
+  type: apiKey
+  in: header
+  parameter_name: Authorization
+  value_format: 'Token <api-key>'
+  example_from_docs: 'Authorization: Token 00000000-0000-0000-0000-000000000000'
+  key_shape: 'UUID-looking token in the docs example (36 chars); the credential is issued per account.'
+  obtain: 'GlobalDatabase Profile on the platform (https://platform.globaldatabase.com) or via the account manager; free trial keys via https://platform.globaldatabase.com/public/signup/free_tier_ai.'
+  applies_to: [https://api.globaldatabase.com/v2/, 'https://api.globaldatabase.com/v2/ai/query (Regis AI query)']
+  challenge_observed: 'WWW-Authenticate: Token'
+  error_shape: '{"detail": "Authentication credentials were not provided."} (401); docs name the invalid-token case TokenVerificationError -> {"detail": "Invalid token"}.'
+  sources: [https://api.globaldatabase.com/docs/v2/#authentication, live 401 probe 2026-09-19]
+- name: McpOAuth
+  type: oauth2
+  description: >-
+    OAuth 2.1 authorization-code flow with PKCE (S256) and RFC 7591 dynamic client registration,
+    fronting the MCP endpoint. Metadata is published per RFC 8414 and RFC 9728 on the MCP host.
+  flows:
+  - flow: authorizationCode
+    authorization_server: https://mcp.globaldatabase.com/
+    authorization_endpoint: https://mcp.globaldatabase.com/authorize
+    token_endpoint: https://mcp.globaldatabase.com/token
+    registration_endpoint: https://mcp.globaldatabase.com/register
+    pkce: S256
+    grant_types: [authorization_code, refresh_token]
+    token_endpoint_auth_methods: [client_secret_post, client_secret_basic]
+    scopes: []
+    scopes_note: 'scopes_supported is an empty array; clients must request no scope (README: a non-empty scope fails the token request in Copilot Studio).'
+    bearer_methods: [header]
+    resource: https://mcp.globaldatabase.com/mcp
+  applies_to: [https://mcp.globaldatabase.com/mcp]
+  sources: [well-known/globaldatabase-com-mcp-oauth-authorization-server.json, well-known/globaldatabase-com-mcp-oauth-protected-resource.json, https://github.com/global-database/mcp-server#authentication]
+security_headers_observed:
+  api_host: [x-frame-options DENY, x-content-type-options nosniff, referrer-policy same-origin, cross-origin-opener-policy same-origin, 'strict-transport-security max-age=15724800; includeSubDomains']
+  mcp_host: [x-frame-options DENY, x-content-type-options nosniff, referrer-policy strict-origin-when-cross-origin, 'content-security-policy default-src ''self'' ...', 'strict-transport-security max-age=15724800; includeSubDomains']

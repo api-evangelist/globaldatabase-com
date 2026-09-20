@@ -1,0 +1,49 @@
+generated: '2026-09-19'
+method: searched
+source: https://api.globaldatabase.com/docs/v2/#errors (LimitError) + https://api.globaldatabase.com/docs/v2/#ai-query (Errors + "Good to know") + https://api.globaldatabase.com/docs/v2/#metrics + https://mcp.globaldatabase.com/ ("counts toward its quota")
+checked: '2026-09-19'
+limit_count: 0
+summary: >-
+  Global Database documents HOW limits are signalled but publishes NO numeric limits: no
+  requests-per-second/minute figure, no burst, no per-endpoint cap. The controls that exist are
+  account quotas — a per-module daily/total credit allowance introspectable via GET /v2/metrics
+  (used vs total), and a per-call AI-query request count whose live counters come back in
+  X-Quota-* headers. Exhaustion is a 429 (AI query, with Retry-After) or a LimitError body naming
+  the module and guard ("limits.daily"). limit_count is 0 because no limit VALUE is published;
+  the runtime signals below are real and documented.
+scopes:
+- scope: per-account, per-module
+  surface: REST v2 (api.globaldatabase.com)
+  window: daily (error_guard "limits.daily") or plan total (error_guard "limit")
+  limit: null
+  unit: credits / lookups per module
+  burst: null
+  status_on_exhaustion: 429
+  status_note: 'The docs call the body LimitError and label it "Limit api error" without stating the code; 429 is the documented code for the same condition on /v2/ai/query.'
+  body_on_exhaustion: '{"access": {"permission", "permission_name", "module", "module_name", "app", "app_name"}, "error_guard": "limits.daily" | "limit", "message_guard": "You have reached your daily online browsing limit"}'
+  headers: []
+  retry_after: null
+  introspection:
+  - {endpoint: 'GET /v2/metrics', returns: 'array of {name, codename, metrics: [{name, codename, used, total}]} per permission module'}
+  - {endpoint: 'GET /v2/metrics/contacts?date_from&date_to', returns: '{email_count, phone_count} consumed in the range'}
+- scope: per-account
+  surface: 'POST /v2/ai/query (Regis AI query)'
+  window: null
+  limit: null
+  unit: AI-query requests (one per successful call) plus the underlying data-product limits
+  burst: null
+  status_on_exhaustion: 429
+  body_on_exhaustion: '{ "detail": string }'
+  headers:
+  - {name: 'X-Quota-*', meaning: 'Live quota counters for the AI-query allowance, returned on responses ("the live counters are returned in the X-Quota-* response headers"). The docs do not enumerate the individual header names.'}
+  - {name: Retry-After, meaning: 'Present on the 429; wait this long before retrying.'}
+  retry_after: documented
+  stream_variant: 'If the limit trips after streaming has begun, an SSE `error` event with code `rate_limit` is sent instead of a 429.'
+- scope: per-account (OAuth-bound)
+  surface: MCP server https://mcp.globaldatabase.com/mcp
+  window: null
+  limit: null
+  status_on_exhaustion: null
+  note: 'Landing page: "Every call runs against your own account and counts toward its quota." Exhaustion surfaces as the REST LimitError inside the tool result; no MCP-level rate-limit headers documented.'
+observed_live:
+  note: 'Unauthenticated 401 responses on 2026-09-19 carried no RateLimit-*, X-RateLimit-* or X-Quota-* headers; the quota headers are documented for authenticated AI-query responses only.'

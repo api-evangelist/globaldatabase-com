@@ -1,0 +1,46 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.globaldatabase.com/pricing-products
+checked: '2026-09-19'
+also_read: [https://www.globaldatabase.com/pricing-products-features, https://www.globaldatabase.com/pricing-free-trial, https://www.globaldatabase.com/free-trial, 'https://www.globaldatabase.com/llms.txt (Pricing section)', https://mcp.globaldatabase.com/ (Create an account — "Start free")]
+summary: >-
+  The pricing page's tier cards are rendered client-side and are absent from the served HTML
+  (only the hero "Grow and Accelerate today! / Save up to 20% / Bill monthly / Bill yearly",
+  one enterprise "License Our Data" contact-us tier, and a FAQ are server-rendered). So the only
+  tier a machine can read is the enterprise data-licensing tier, priced on request. The FAQ and
+  llms.txt establish the commercial model: credit-based consumption, monthly or yearly billing
+  with up to 20% off yearly and up to 40% off 2-year contracts, individual credit reports from
+  $19, a free trial / free AI tier, card or wire payment, upfront and non-refundable. API access
+  is not sold as a separately priced, self-serve tier on any page read. plan_count counts only
+  what is published and readable: 1.
+plan_count: 1
+prices_published: false
+currency: USD
+currency_note: 'Only figure published is "Individual credit reports start at $19" (llms.txt); tier prices are not in the served HTML.'
+billing_period: [monthly, yearly, 2-year contract]
+discounts: {yearly: 'up to 20%', two_year: 'up to 40% (via sales)'}
+public_signup_pricing: false
+free_tier: {available: true, url: 'https://platform.globaldatabase.com/public/signup/free_tier_ai', note: 'Free trial sign-up; the MCP landing page links "Start free" to a free_tier_ai sign-up; the Regis page offers "Generate a test key".'}
+plans:
+- name: License Our Data (enterprise data licensing)
+  price: null
+  currency: null
+  billing_period: null
+  cta: Contact us
+  positioning: Embed government-sourced company data directly into your platform.
+  included: [White-label or attributed, Full redistribution rights, 'Raw data delivery (JSON, CSV, SFTP)', Custom data refresh cadence, Source Attribution, 'Unlimited API calls, users, downloads']
+  included_quota: unlimited API calls (as stated)
+  overage: null
+  limits: null
+  surface: [bulk data feeds, REST API, platform]
+subscription_tiers_unreadable:
+  note: 'Tier names/prices ("starter to enterprise" per llms.txt) are rendered by JavaScript on /pricing-products and were not captured; /pricing (the URL llms.txt gives) returns 404.'
+  evidence: [{url: 'https://www.globaldatabase.com/pricing', status: 404}, {url: 'https://www.globaldatabase.com/pricing-products', status: 200, note: 'tier cards not in HTML'}]
+metering:
+  model: credits
+  notes:
+  - 'Credits are consumed per API request (llms.txt); export credits: 1 credit = 1 exported row (FAQ).'
+  - 'Per-module used/total quotas are readable via GET /v2/metrics.'
+  - 'MCP calls count against the connected account''s quota (mcp landing page).'
+payment: {methods: [VISA, MasterCard, Amex, wire transfer], terms: 'Processed upfront and non-refundable (FAQ).'}
+cancellation: 'Monthly: cancel any time before the billing date. Yearly: through the account manager or support@globaldatabase.com (FAQ).'

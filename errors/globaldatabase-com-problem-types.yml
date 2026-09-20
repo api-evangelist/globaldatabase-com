@@ -1,0 +1,71 @@
+generated: '2026-09-19'
+method: searched
+format: json-detail
+source: https://api.globaldatabase.com/docs/v2/#errors + https://api.globaldatabase.com/docs/v2/#ai-query (Errors table) + live unauthenticated probes 2026-09-19
+rfc9457: false
+summary: >-
+  The v2 REST API is a Django REST Framework service ("conventional Python and HTTP responses"
+  per the docs; `WWW-Authenticate: Token` and `{"detail": ...}` observed live). Errors are
+  application/json, never application/problem+json. The docs name four error families for the
+  REST API without stating status codes, and give a full status table for the Regis AI-query
+  endpoint. Live probing confirmed the 401 body.
+envelope:
+  media_type: application/json
+  default_shape: '{ "detail": string }'
+  validation_shape: '{ "<field_name>": [ "message", ... ] }'
+  limit_shape: '{ "access": { "permission", "permission_name", "module", "module_name", "app", "app_name" }, "error_guard": "limits.daily" | "limit", "message_guard": string }'
+  ai_query_shape: '{ "detail": string, "code": string }'
+  ai_query_stream_error: 'SSE event `error` with data { "type": "error", "detail": string, "code": string } once streaming has begun'
+problems:
+- name: TokenVerificationError
+  status: 401
+  status_source: 'Observed live (401, WWW-Authenticate: Token); the docs name the error but omit the code.'
+  body: '{"detail": "Invalid token"}  — docs; live unauthenticated call returns {"detail": "Authentication credentials were not provided."}'
+  meaning: The Authorization header is missing or the token is not recognised.
+  remediation: 'Send `Authorization: Token <api-key>` (the word Token, not Bearer). Obtain or rotate the key in the platform profile.'
+- name: InvalidRequest
+  status: 400
+  status_source: 'Docs label it "Validation error"; code not stated in the REST section. The AI-query table states 400 for invalid input.'
+  body: '{"field_name": ["This field is required."]}'
+  meaning: Request body/parameters failed validation; the body is keyed by the offending field.
+  remediation: Inspect each key of the response object; each holds an array of messages for that field.
+- name: InternalError
+  status: 500
+  status_source: 'Docs label it "Generic api error"; code not stated.'
+  body: '{"detail": "A server error occurred."}'
+  meaning: Unhandled server-side failure.
+  remediation: Retry with backoff; contact support@globaldatabase.com if persistent.
+- name: LimitError
+  status: 429
+  status_source: 'Docs label it "Limit api error"; code not stated for REST. The AI-query table returns 429 for "Quota or rate limit reached" and points at X-Quota-* + Retry-After.'
+  body: '{"access": {"permission": "code_permission", "permission_name": "Name permission", "module": "code_module", "module_name": "Name Module", "app": "api", "app_name": "Api"}, "error_guard": "limits.daily", "message_guard": "You have reached your daily online browsing limit"}'
+  meaning: An account quota (daily or module limit) is exhausted; the body names the module/permission that hit its guard.
+  remediation: Check GET /v2/metrics (used vs total per module) and wait for the daily window or upgrade the plan; the error is not retryable within the window.
+- name: ai-query 400
+  status: 400
+  body: '{ detail, code }'
+  meaning: Invalid input, or code `no_api_key` (no API key configured on the account).
+- name: ai-query 401
+  status: 401
+  meaning: Missing or invalid token.
+- name: ai-query 403
+  status: 403
+  body: '{ detail, code }'
+  meaning: No AI-query entitlement on the account, or code `mcp_auth_error`.
+- name: ai-query 429
+  status: 429
+  body: '{ detail }'
+  meaning: Quota or rate limit reached — see the X-Quota-* headers and Retry-After.
+  remediation: Honour Retry-After; each successful call consumes one AI-query request and the live counters are returned in X-Quota-* headers.
+- name: ai-query 502
+  status: 502
+  body: '{ detail, code }'
+  meaning: code `mcp_connection_error` — the data service behind the assistant could not be reached.
+- name: ai-query stream error event
+  status: null
+  transport: SSE event `error`
+  body: '{ "type": "error", "detail", "code" }'
+  codes: [rate_limit, llm_unavailable, mcp_connection_error, mcp_auth_error, timeout, internal_error]
+  meaning: An error raised after the HTTP 200 stream has begun; the HTTP status can no longer change.
+mcp_errors:
+- {status: 401, body: '{"error": "invalid_token", "error_description": "Authentication failed. The provided bearer token is invalid, expired, or no longer recognized by the server. To resolve: clear authentication tokens in your MCP client and reconnect. Your client should automatically re-register and obtain new tokens."}', header: 'WWW-Authenticate: Bearer error="invalid_token", resource_metadata="https://mcp.globaldatabase.com/.well-known/oauth-protected-resource/mcp"', source: live probe 2026-09-19}

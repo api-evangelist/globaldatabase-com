@@ -1,0 +1,108 @@
+# GlobalDatabase.com
+
+> GlobalDatabase is a B2B company intelligence platform providing verified company data sourced directly from 400+ official government registries across 200+ countries. The platform covers 600M+ company profiles and serves sales, compliance, fintech, and product teams with registry-sourced company data via web platform, API, and bulk data feeds.
+
+## What GlobalDatabase Does
+
+GlobalDatabase connects directly to official government registries — Companies House, tax registries, and regulatory databases — to deliver structured, verified company intelligence. Unlike providers that aggregate from third-party vendors, GlobalDatabase sources data from primary government sources, ensuring accuracy and auditability.
+
+Key capabilities:
+- Company search and verification by name, registration number, VAT number, domain, or phone
+- KYB (Know Your Business) verification for onboarding and compliance workflows
+- UBO (Ultimate Beneficial Owner) identification and ownership chain mapping
+- Financial statements and credit scores (up to 20 years of filings)
+- Director, officer, and shareholder data
+- Group structure and corporate relationship trees
+- B2B data enrichment via API or bulk file upload
+- Real-time company monitoring and change alerts via webhooks
+- Digital insights including web technologies used by companies
+
+## Products
+
+### Web Platform
+Search and explore company profiles at globaldatabase.com. Access financials, directors, shareholders, group structure, contact information, and credit reports for companies worldwide.
+
+### API
+RESTful API providing programmatic access to all GlobalDatabase data. Base URL: https://api.globaldatabase.com/v2/
+Authentication: Token-based (Authorization: Token YOUR_API_KEY)
+Documentation: https://api.globaldatabase.com/docs/v2/
+
+Main API endpoints:
+- POST /v2/overview — Company search by name, country, registration number, VAT, website, phone
+- GET /v2/metrics — Usage metrics and credit consumption
+- GET /v2/metrics/contacts — Contact data usage by date range
+- KYB endpoints for verification, ownership, directors, financials, and shareholders
+
+### KYB API
+Modular KYB verification API covering 600M+ companies across 200+ countries. Endpoints cover: company identification, legal entity data, director/officer verification, shareholder and ownership structures, financial performance, and UBO identification. Designed for regulated industries, AML compliance, and high-volume onboarding.
+
+### Bulk Data Feeds
+Full-file or delta data feeds delivered as CSV, JSON, or direct database sync. Supports scheduled delivery (daily, weekly, monthly). Covers 80+ data fields per company. Upload existing lists in .csv, .xlsx, or .txt for matching and enrichment.
+
+### Chrome Extension
+Browser extension to verify companies, identify UBOs, view financials, and access contacts directly on the web and LinkedIn.
+
+## Data Coverage
+
+- **Companies:** 600M+ profiles worldwide
+- **Countries:** 200+ countries and territories (full global coverage including all 210 countries)
+- **Data sources:** 400+ official government registries (Companies House UK, tax registries, regulatory databases)
+- **Data fields:** 80+ data points per company
+- **Financial history:** Up to 20 years of digitised financial statements
+- **Update frequency:** Daily updates from registries; contact data validated monthly
+
+## Key Data Fields
+
+**Company Registry Data:** Global Database ID, legal name, trading name, registration number, VAT number, founding date, company status, legal form, country, region, address, city, ZIP, geo coordinates, office locations, industry classification codes (SIC, NACE, NAICS)
+
+**Financial Data:** Annual turnover, profit/loss, net assets, liabilities, key financial ratios, credit scores, credit limit recommendations, court judgments, trade payment data, charges and mortgages
+
+**People Data:** Directors, officers, shareholders, Persons of Significant Control (PSC), UBOs — with appointment dates, nationality, country of residence, roles, and email/phone contacts
+
+**Ownership & Group Structure:** Parent company, domestic ultimate, global ultimate, subsidiary relationships, ownership percentages, share classes, shareholder types (individual/corporate)
+
+**Firmographic Data:** Phone, fax, website, email, estimated employee count, estimated revenue, business description, industry tag, LinkedIn, Facebook, Instagram, company logo
+
+**Digital Insights:** Web technologies used by the company
+
+## Use Cases
+
+- **KYB & Compliance:** Verify legal entities for AML compliance, onboarding, sanctions screening, and ongoing monitoring
+- **UBO Identification:** Trace ownership chains to identify ultimate beneficial owners across borders
+- **Sales Prospecting:** Build targeted B2B lead lists by industry, size, location, turnover, and technology stack
+- **Credit Risk Assessment:** Access credit scores, financial history, and payment data before extending credit
+- **Data Enrichment:** Enrich CRM records with 80+ verified data points matched by name, domain, registration number, or phone
+- **Form Autopopulation:** Auto-fill onboarding forms from a domain or email address
+- **Due Diligence:** Full 360-degree company profiles for M&A, supplier vetting, and partnership assessment
+- **Market Research:** Analyse industry trends, competitor landscapes, and regional company distributions
+- **Webhook Monitoring:** Receive real-time alerts when companies change status, directors, financials, or ownership
+
+## Pricing
+
+Credit-based model. Credits are consumed per API request. Individual credit reports start at $19. Subscription plans range from starter to enterprise. Free trial available on request.
+
+## Industries Served
+
+Agriculture, Artificial Intelligence and Machine Learning, Automotive, Beverages, Big Data, Business Services, Chemicals, Construction & Real Estate, Consulting, Consumer Goods & Services, Cybersecurity, Defence & Security, E-Commerce, Education & Training, Energy & Utilities, Finance & Insurance, Fintech, Food, Government, Hire & Rental, Human Resources, Information Technology, Legal, Leisure & Entertainment, Manufacturing, Marketing Sales & PR, Media, Metals, Mining & Minerals, Nonprofit Organisations, Oil & Gas, Paper Wood & Furniture, Pharmaceutical & Medical, Retail, Telecommunication, Textile, Tourism, Transport & Logistics, Wholesale
+
+## Country Coverage (Key Markets)
+
+United Kingdom, United States, Germany, France, Italy, Spain, Netherlands, Ireland, Canada, Australia, India, China, Japan, Hong Kong, Singapore, UAE, Saudi Arabia, South Africa, Brazil, Mexico, Colombia, Peru, Chile, Poland, Czech Republic, Romania, and 180+ additional countries
+
+## Key Pages
+
+- Homepage: https://www.globaldatabase.com/
+- API: https://www.globaldatabase.com/api
+- API Documentation: https://api.globaldatabase.com/docs/v2/
+- KYB API: https://www.globaldatabase.com/global-database-launches-new-kyb-api-with-600m-company-profiles-across-200-countries
+- Data Enrichment: https://www.globaldatabase.com/data-enrichment
+- Financial Reporting: https://www.globaldatabase.com/financial-reporting
+- Global Coverage Announcement: https://www.globaldatabase.com/global-database-achieves-full-global-coverage-now-offering-company-verification-for-every-country-worldwide
+- Pricing: https://www.globaldatabase.com/pricing
+- Data Dictionary: https://www.globaldatabase.com/data-dictionary-2/
+
+## Company
+
+GlobalDatabase.com is a B2B intelligence company. The platform is also accessible via the Zavia.ai brand (zavia.ai) which uses the same underlying data infrastructure for KYB-focused workflows.
+
+Contact: Available via request demo form at globaldatabase.com

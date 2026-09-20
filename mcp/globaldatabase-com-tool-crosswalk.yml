@@ -1,0 +1,106 @@
+generated: '2026-09-19'
+method: derived
+source: >-
+  Derived by aligning the provider-published MCP tool list (mcp/globaldatabase-com-mcp.yml, 23
+  tools from the landing page + README) with (a) the OpenAPI the MCP host serves for its browser
+  playground (openapi/globaldatabase-com-mcp-playground-openapi.yml, 20 paths, 9 /api/* data
+  endpoints) and (b) the v2 REST endpoints documented in HTML at
+  https://api.globaldatabase.com/docs/v2/ (69 method+path pairs, no operationIds — the REST API
+  publishes no OpenAPI). Live tools/list is OAuth-gated (401), so bindings are by name and
+  semantics; confidence is set accordingly.
+surfaces:
+  openapi: openapi/globaldatabase-com-mcp-playground-openapi.yml   # MCP host playground + OAuth pages; real request schemas for 8 tool families
+  rest_reference: https://api.globaldatabase.com/docs/v2/            # HTML only, no machine-readable contract
+  mcp: https://mcp.globaldatabase.com/mcp                             # tools/list gated (OAuth 2.1); 401 with resource_metadata
+  graphql: null
+crosswalk:
+- tool: get_company_by_website
+  category: companies
+  rest: [api_company_by_url_api_company_by_url_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/company-by-url (schema CompanyByUrlRequest). REST v2 equivalent: POST /v2/enrichment/url.'
+- tool: get_company_by_linkedin
+  category: companies
+  rest: [api_company_by_linkedin_api_company_by_linkedin_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/company-by-linkedin (CompanyByLinkedinRequest). REST v2: POST /v2/enrichment/company/linkedin.'
+- tool: get_company_by_identifiers
+  category: companies
+  rest: [api_autocomplete_api_autocomplete_post]
+  binding: rest
+  confidence: medium
+  note: 'Playground POST /api/autocomplete (AutocompleteRequest) is the identifier-resolution call; the docs v2 "Available Tools" table lists this family as "Autocomplete — find a company by name, registration number, VAT, ticker, or email". REST v2: POST /v2/autocomplete and POST /v2/overview.'
+- tool: get_company_details
+  category: companies
+  rest: [api_company_details_api_company_details_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/company-details (CompanyDetailsRequest). REST v2: GET /v2/companies/{id}.'
+- tool: get_company_financials
+  category: companies
+  rest: [api_company_financials_api_company_financials_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/company-financials (CompanyFinancialsRequest). REST v2: GET /v2/financial/{id}.'
+- tool: get_company_ownership
+  category: companies
+  rest: [api_company_ownership_api_company_ownership_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/company-ownership (CompanyOwnershipRequest). REST v2: GET /v2/ownership/{id}.'
+- tool: prospecting
+  category: people-prospecting
+  rest: [api_prospecting_api_prospecting_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/prospecting (ProspectingRequest). REST v2: POST /v2/prospecting (page / per_page / filters).'
+- tool: get_nomenclature
+  category: reference
+  rest: [api_nomenclature_api_nomenclature_post]
+  binding: rest
+  confidence: high
+  note: 'Playground POST /api/nomenclature (NomenclatureRequest). REST v2: GET /v2/nomenclatures/{list} (18 lists).'
+- tool: check_api_key
+  category: reference
+  rest: [api_verify_token_api_verify_token_post]
+  binding: rest
+  confidence: medium
+  note: 'Playground POST /api/verify-token (VerifyTokenRequest) verifies the pasted key; the MCP tool returns current user info. REST v2 has no direct equivalent (GET /v2/metrics is the nearest account-state call).'
+mcp_only:
+- {tool: get_digital_insights, reason: 'No playground endpoint. Backed by the v2 REST Digital Insights API (POST /v2/digital-insights, GET /v2/digital-insights/{id}), documented in HTML only.'}
+- {tool: kyb_search, reason: 'No playground endpoint. REST v2: POST /v2/kyb/search (HTML docs only).'}
+- {tool: kyb_company_details, reason: 'REST v2: GET /v2/kyb/{id}/lite and /v2/kyb/{id}/full (HTML docs only).'}
+- {tool: kyb_officers, reason: 'REST v2: GET /v2/kyb/{id}/officers.'}
+- {tool: kyb_officers_search, reason: 'REST v2: POST /v2/kyb/officers/search.'}
+- {tool: kyb_shareholders, reason: 'REST v2: GET /v2/kyb/{id}/shareholders.'}
+- {tool: kyb_shareholders_search, reason: 'REST v2: POST /v2/kyb/shareholders/search/{view_mode}.'}
+- {tool: kyb_group_structure, reason: 'REST v2: GET /v2/kyb/{id}/group-structures/lite and /full.'}
+- {tool: kyb_financial, reason: 'REST v2: GET /v2/kyb/{id}/financial.'}
+- {tool: search_employees, reason: 'REST v2: POST /v2/employees and POST /v2/enrichment/employee/search.'}
+- {tool: get_employee_details, reason: 'REST v2: GET /v2/employees/{id}.'}
+- {tool: find_people_by_domain, reason: 'Composite over the contact-enrichment providers; nearest REST v2 is POST /v2/enrichment/employee/search.'}
+- {tool: enrich_employee_contacts, reason: 'REST v2: POST /v2/enrichment/employee/contacts, /v2/enrichment/email, /v2/enrichment/employee/linkedin.'}
+- {tool: read_reference, reason: 'Named only on the landing page (Reference family); no README row and no REST equivalent — presumed accessor for the gdb:// resources.'}
+rest_only:
+- capability: playground / OAuth UI (MCP host OpenAPI)
+  operations: [playground_playground_get, login_form_oauth_login_get, login_submit_oauth_login_post, sso_start_oauth_sso_start_get, sso_callback_oauth_sso_callback_get, trial_form_oauth_trial_get, trial_submit_oauth_trial_post, trial_verify_oauth_trial_verify_post, consent_form_oauth_consent_get, consent_submit_oauth_consent_post, consent_deny_oauth_deny_post, landing__get, health_check_health_get, openai_apps_challenge__well_known_openai_apps_challenge_get]
+  note: Browser/OAuth plumbing, not data operations; correctly absent from the tool list.
+- capability: v2 REST surfaces with NO MCP tool (from the HTML reference)
+  operations_by_path:
+  - 'Watch Companies API: POST/PUT /v2/companies/{id}/watch/start, DELETE /v2/companies/{id}/watch/stop, GET /v2/companies/watch, GET /v2/companies/{id}/watch/events, GET /v2/companies/{id}/watch/fields, PUT/GET /v2/companies/watch/callback'
+  - 'Credit Report API: GET /v2/credit-report, POST /v2/credit-report/report/{format}, POST /v2/credit-report/report/{format}/file, GET /v2/credit-report/{id}/check, GET /v2/credit-report/report/{format}/{report_id}[/file], GET /v2/credit-report/purchased'
+  - 'Bank Verification API: POST /v2/bank-verification, GET /v2/bank-verification/config, GET /v2/bank-verification/history[/{id}]'
+  - 'Logo API: GET /v2/logo/{domain}'
+  - 'Metrics: GET /v2/metrics, GET /v2/metrics/contacts'
+  - 'AI Query: POST /v2/ai/query (a server-side agent over the MCP tools, SSE)'
+  note: 'The landing page says "PEPs & sanctions" and "Registry documents" tools are "coming soon" and the mcp-integration page counts "+13 more tools", consistent with the 23 published.'
+coverage:
+  tools_named: 23
+  tools_bound_to_openapi_operation: 9
+  mcp_only: 14
+  openapi_operations_total: 23
+  openapi_operations_with_tool: 9
+  rest_v2_documented_endpoints: 69
+  rest_v2_endpoints_with_tool_equivalent: 30

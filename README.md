@@ -64,5 +64,9 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Global Database is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://globaldatabase.com/
+Global Database (GLOBAL DATA INTELLIGENCE Ltd, UK) is a B2B company-intelligence provider that sources company records directly from 400+ official government registries across 200+ countries — 600M+ company profiles with registry data, officers and shareholders, UBO and group structure, up to 20 years of filed financials, credit reports, bank-account (Verification of Payee) checks, firmographics, contacts and web-technology insights. It is delivered through a token-authenticated v2 REST API with signed change webhooks, an SSE-streamed natural-language query endpoint (Regis), a hosted OAuth 2.1 MCP server with 23 read-only tools and three provider-published Agent Skills, an n8n node, bulk data feeds and CRM connectors.
+
+- Website: https://www.globaldatabase.com/
+- API reference (v2): https://api.globaldatabase.com/docs/v2/
+- MCP server: https://mcp.globaldatabase.com/mcp
+- GitHub: https://github.com/global-database

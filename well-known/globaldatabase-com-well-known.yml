@@ -1,0 +1,135 @@
+generated: '2026-09-19'
+method: probed
+source: live GET probes of the closed /.well-known/ path list on every host the record knows, 2026-09-19
+summary: >-
+  Three real documents are served, all on the MCP host mcp.globaldatabase.com: RFC 8414
+  authorization-server metadata, RFC 9728 protected-resource metadata (at both the bare path and
+  the /mcp resource-suffixed path the 401 challenge's resource_metadata names), and an
+  openid-configuration that is a byte-identical copy of the RFC 8414 document (no jwks_uri,
+  userinfo_endpoint or id_token signing algs, so it is not an OIDC discovery document in
+  substance). That earns the WellKnown pointer. No security.txt is served anywhere (so NO
+  SecurityTxt pointer), no api-catalog, ai-plugin.json, apis.json, ucp/acp/aauth, and no A2A
+  agent card on any host. platform.globaldatabase.com is a single-page app that answers 200
+  text/html (2,845 bytes) for every path; those rows are recorded as SPA shells, not documents.
+  api.globaldatabase.com answers 503 for every path outside /docs/v2/ and /robots.txt.
+pointer_emitted: WellKnown
+security_txt: false
+hosts:
+- host: globaldatabase.com
+  role: registrable domain (apex)
+  note: Every path 301s to https://www.globaldatabase.com/<same path>; see the www host for the resolved status.
+  documents:
+  - {path: /.well-known/security.txt, status: 301, redirect: https://www.globaldatabase.com/.well-known/security.txt}
+  - {path: /.well-known/openid-configuration, status: 301}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/oauth-protected-resource, status: 301}
+  - {path: /.well-known/api-catalog, status: 301}
+  - {path: /.well-known/ai-plugin.json, status: 301}
+  - {path: /.well-known/agent-card.json, status: 301}
+  - {path: /.well-known/agent.json, status: 301}
+- host: www.globaldatabase.com
+  role: website
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /security.txt, status: 404}
+  - {path: /llms.txt, status: 200, content_type: text/plain, file: ../llms/globaldatabase-com-llms.txt, note: 'Real llms.txt (7,672 bytes) — saved under llms/, not a well-known path.'}
+- host: api.globaldatabase.com
+  role: REST API base (v2)
+  note: 'The host serves only /docs/v2/ (the HTML reference) and /robots.txt; every other path, including /.well-known/*, returns 503 text/html (190 bytes).'
+  documents:
+  - {path: /.well-known/security.txt, status: 503}
+  - {path: /.well-known/openid-configuration, status: 503}
+  - {path: /.well-known/oauth-authorization-server, status: 503}
+  - {path: /.well-known/oauth-protected-resource, status: 503}
+  - {path: /.well-known/api-catalog, status: 503}
+  - {path: /.well-known/api-catalog.json, status: 503}
+  - {path: /.well-known/ai-plugin.json, status: 503}
+  - {path: /.well-known/ucp.json, status: 503}
+  - {path: /.well-known/acp.json, status: 503}
+  - {path: /.well-known/aauth-resource.json, status: 503}
+  - {path: /.well-known/apis.json, status: 503}
+  - {path: /apis.json, status: 503}
+  - {path: /apis.yml, status: 503}
+  - {path: /.well-known/agent-card.json, status: 503}
+  - {path: /.well-known/agent.json, status: 503}
+  - {path: /openapi.json, status: 503, note: 'No OpenAPI served at the API host root (also /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /redoc 503; /v2/openapi.json and /docs/v2/openapi.json 404).'}
+- host: mcp.globaldatabase.com
+  role: MCP server host (RFC 9728 resource server + RFC 8414 authorization server)
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: globaldatabase-com-mcp-oauth-authorization-server.json
+    real_document: true
+    note: 'issuer https://mcp.globaldatabase.com/, authorize/token/register endpoints, authorization_code + refresh_token, PKCE S256, client_secret_post|basic.'
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: globaldatabase-com-mcp-oauth-protected-resource.json
+    real_document: true
+    note: 'resource https://mcp.globaldatabase.com/mcp, authorization_servers [https://mcp.globaldatabase.com/], scopes_supported [] (empty), bearer_methods_supported [header].'
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    file: globaldatabase-com-mcp-oauth-protected-resource-mcp.json
+    real_document: true
+    note: 'The resource-suffixed form named by the 401 challenge (WWW-Authenticate ... resource_metadata="https://mcp.globaldatabase.com/.well-known/oauth-protected-resource/mcp"). Same body as the bare path.'
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: globaldatabase-com-mcp-openid-configuration.json
+    real_document: true
+    note: 'Byte-identical to the oauth-authorization-server document. Lacks jwks_uri, subject_types_supported, id_token_signing_alg_values_supported and userinfo_endpoint, so it does not satisfy OpenID Connect Discovery 1.0 — recorded as served, graded false under oidc-discovery in conformance/.'
+  - {path: /.well-known/security.txt, status: 404, content_type: application/json}
+  - {path: /.well-known/api-catalog, status: 404, content_type: application/json}
+  - {path: /.well-known/api-catalog.json, status: 404, content_type: application/json}
+  - {path: /.well-known/ai-plugin.json, status: 404, content_type: application/json}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404, content_type: application/json}
+  - {path: /.well-known/agent.json, status: 404, content_type: application/json}
+  - {path: /openapi.json, status: 200, content_type: application/json, file: ../openapi/_original/globaldatabase-com-mcp-playground-openapi.json, note: 'FastAPI-generated OpenAPI 3.1.0 for this host (20 paths) — saved under openapi/. Not a well-known path.'}
+  - {path: /health, status: 200, content_type: application/json}
+- host: platform.globaldatabase.com
+  role: customer console / sign-up
+  note: 'Single-page application: every path returns 200 text/html, 2,845 bytes, the same shell. None of these is a document.'
+  documents:
+  - {path: /.well-known/security.txt, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/api-catalog, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/api-catalog.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/ai-plugin.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/ucp.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/acp.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/aauth-resource.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/apis.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /apis.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /apis.yml, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/agent-card.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+  - {path: /.well-known/agent.json, status: 200, content_type: text/html, real_document: false, result: spa-shell}
+a2a_agent_card:
+  found: false
+  note: >-
+    No A2A agent card on any host: www 404 for both /.well-known/agent-card.json and the legacy
+    /.well-known/agent.json, api 503, mcp 404 (JSON), platform 200 SPA shell (not a JSON object).
+    Nothing is written to a2a/ and no AgentCard pointer is emitted. The harvest source for this
+    record was tagged "a2a-registry"; whatever that registry held, the provider serves no card today.

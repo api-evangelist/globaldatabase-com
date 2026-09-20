@@ -1,0 +1,116 @@
+generated: '2026-09-19'
+method: searched
+status: published
+source: https://mcp.globaldatabase.com/ (server landing page) + https://api.globaldatabase.com/docs/v2/#mcp-server + https://github.com/global-database/mcp-server (README, server.json) + https://registry.modelcontextprotocol.io/v0/servers?search=globaldatabase
+probed: >-
+  2026-09-19 POST https://mcp.globaldatabase.com/mcp (tools/list, Accept application/json,
+  text/event-stream) -> 401 application/json {"error":"invalid_token",...} with
+  WWW-Authenticate: Bearer error="invalid_token", resource_metadata="https://mcp.globaldatabase.com/.well-known/oauth-protected-resource/mcp".
+  The live tools/list is OAuth-gated; the tool inventory below is the provider's own published
+  list (landing page + README), which names 23 tools. inputSchema for each tool needs an
+  authenticated session; the browser-playground OpenAPI on the same host carries real request
+  schemas for 8 of the tool families (see mcp/globaldatabase-com-tool-crosswalk.yml).
+deployment:
+  mode: remote
+  endpoint: https://mcp.globaldatabase.com/mcp
+  transport: streamable-http
+  install: null
+  package: null
+  auth: oauth
+  verified: probed
+  note: >-
+    Hosted only. The GitHub repository global-database/mcp-server is distribution metadata
+    (server.json, mcp.json, plugin manifests, three skills) — the README states the server
+    implementation is not open source and there is nothing to install or run locally.
+server:
+  name: global-database
+  registry_name: com.globaldatabase/mcp
+  title: Global Database
+  version: 0.2.1
+  transport: streamable-http
+  url: https://mcp.globaldatabase.com/mcp
+  homepage: https://mcp.globaldatabase.com
+  repository: https://github.com/global-database/mcp-server
+  license: MIT (distribution metadata only; server implementation proprietary)
+  privacy: https://mcp.globaldatabase.com/static/privacy.html
+  terms: https://mcp.globaldatabase.com/static/terms.html
+  support: support@globaldatabase.com
+  health: https://mcp.globaldatabase.com/health
+  read_only: true
+  read_only_source: 'Landing page: "23 tools, all read-only ... Nothing writes back."'
+  metering: 'Every call runs against the user''s own Global Database account and counts toward its quota (landing page).'
+auth:
+  methods: [oauth2]
+  oauth2:
+    version: 'OAuth 2.1'
+    authorization_server: https://mcp.globaldatabase.com/
+    authorization_endpoint: https://mcp.globaldatabase.com/authorize
+    token_endpoint: https://mcp.globaldatabase.com/token
+    registration_endpoint: https://mcp.globaldatabase.com/register
+    dynamic_client_registration: true
+    pkce: S256
+    grant_types: [authorization_code, refresh_token]
+    token_endpoint_auth_methods: [client_secret_post, client_secret_basic]
+    scopes_supported: []
+    scopes_note: 'The server publishes no scopes; the README warns Copilot Studio users to leave Scope empty because a non-empty scope fails the token request.'
+    discovery: well-known/globaldatabase-com-mcp-oauth-authorization-server.json
+    protected_resource: well-known/globaldatabase-com-mcp-oauth-protected-resource.json
+    login_ux: 'Browser login page on first connect where the user pastes a Global Database API key; the key is held in the access-token claims server-side and never passed as a tool argument (README). The docs v2 page describes the same flow as "authenticate with your GlobalDatabase API key".'
+    trial: 'The host also serves /oauth/trial (trial sign-up form) and /oauth/sso/start (SSO) per its OpenAPI.'
+tool_count: 23
+tools:
+- {name: get_company_by_identifiers, category: companies, description: 'Look up a company by name, registration number, VAT, ticker, website, email, or LinkedIn.'}
+- {name: get_company_by_website, category: companies, description: Look up a company by website URL or domain.}
+- {name: get_company_by_linkedin, category: companies, description: Look up a company by LinkedIn URL or public ID.}
+- {name: get_company_details, category: companies, description: Full company profile by company_id (expands a prospecting row).}
+- {name: get_company_financials, category: companies, description: 'Balance sheet, ratios, and key metrics per year.'}
+- {name: get_company_ownership, category: companies, description: Shareholders and corporate group structure.}
+- {name: get_digital_insights, category: companies, description: 'Web traffic, rankings, traffic sources, WHOIS, technologies.'}
+- {name: kyb_search, category: kyb-compliance, description: Search official government registries for KYB/compliance checks.}
+- {name: kyb_company_details, category: kyb-compliance, description: Official registry details for a company.}
+- {name: kyb_officers, category: kyb-compliance, description: 'Directors, secretaries, and officers from the official registry.'}
+- {name: kyb_officers_search, category: kyb-compliance, description: 'Reverse officer lookup by person''s name, across jurisdictions.'}
+- {name: kyb_shareholders, category: kyb-compliance, description: Shareholders from the official registry.}
+- {name: kyb_shareholders_search, category: kyb-compliance, description: 'Reverse shareholder lookup by holder name, across jurisdictions.'}
+- {name: kyb_group_structure, category: kyb-compliance, description: Corporate group structure from the official registry.}
+- {name: kyb_financial, category: kyb-compliance, description: Detailed financial statements across multiple years.}
+- {name: prospecting, category: people-prospecting, description: 'Search and filter companies by country, industry, size, revenue, and more.'}
+- {name: search_employees, category: people-prospecting, description: 'Find the people at a company, or people by name, role, department, or seniority.'}
+- {name: get_employee_details, category: people-prospecting, description: Full profile for one person from a search_employees row.}
+- {name: find_people_by_domain, category: people-prospecting, description: 'Find people at companies given by web domain, via the contact-enrichment providers.'}
+- {name: enrich_employee_contacts, category: people-prospecting, description: 'Find and enrich one named employee/contact — email, phone, socials.'}
+- {name: get_nomenclature, category: reference, description: Lookup values for use with prospecting filters (NACE, ISIC, SIC, industry focus, region and other hierarchical lists; search parameter).}
+- {name: read_reference, category: reference, description: 'Reference reader named on the landing page (Reference family: "Codes, taxonomies, account status"); not in the README tool table — likely the accessor for the gdb:// resources.'}
+- {name: check_api_key, category: reference, description: Verify the API connection and return current user info.}
+resources:
+- {uri: 'gdb://nomenclature/country', contents: Country list for the prospecting location filter.}
+- {uri: 'gdb://nomenclature/kyb-countries', contents: Country list for kyb_search.}
+- {uri: 'gdb://nomenclature/company-status', contents: Company status values for prospecting.}
+- {uri: 'gdb://nomenclature/department', contents: Department ids for search_employees.}
+- {uri: 'gdb://nomenclature/seniority', contents: Seniority ids for search_employees.}
+- {uri: 'gdb://docs/prospecting-filters', contents: Full prospecting filter catalog — field names and value formats.}
+- {uri: 'gdb://docs/intent-glossary', contents: Keyword -> tool glossary for routing a request.}
+prompts: [company_research, due_diligence, lead_generation, competitor_analysis, market_research]
+skills:
+  published_by_provider: true
+  location: https://github.com/global-database/mcp-server/tree/main/skills
+  saved_verbatim: [skills/globaldatabase-com-company-due-diligence.md, skills/globaldatabase-com-company-snapshot.md, skills/globaldatabase-com-prospect-list.md]
+client_configs:
+  claude_code: 'claude mcp add --transport http global-database https://mcp.globaldatabase.com/mcp'
+  claude_plugin: '/plugin marketplace add global-database/mcp-server ; /plugin install global-database@global-database'
+  cursor: '{"mcpServers":{"global-database":{"type":"http","url":"https://mcp.globaldatabase.com/mcp"}}}'
+  vscode: '{"servers":{"global-database":{"type":"http","url":"https://mcp.globaldatabase.com/mcp"}}}'
+  gemini_cli: 'gemini extensions install https://github.com/global-database/mcp-server  (httpUrl + authProviderType dynamic_discovery)'
+  codex_cli: '[mcp_servers.global-database] url = "https://mcp.globaldatabase.com/mcp"'
+  vscode_extension: 'global-database.global-database-mcp (source in repo vscode-extension/; mcpServerDefinitionProviders)'
+listings:
+- {directory: Official MCP Registry, entry: com.globaldatabase/mcp, url: 'https://registry.modelcontextprotocol.io/v0/servers?search=globaldatabase', verified: '2026-09-19 (200; status active; registry copy at version 0.2.0, repo server.json at 0.2.1)'}
+- {directory: Smithery, entry: global-database, url: 'https://smithery.ai/servers/global-database', verified: '2026-09-19 (200; "Published Mar 11, 2026")'}
+- {directory: Glama, entry: com.globaldatabase/mcp, url: 'https://glama.ai/mcp/connectors/com.globaldatabase/mcp', verified: '2026-09-19 (200)'}
+- {directory: Claude Connectors Directory, entry: global-database, url: 'https://claude.ai/directory/global-database', verified: '2026-09-19 (403 to this crawler; README states Community tier)'}
+- {directory: OpenAI ChatGPT Apps, entry: Global Database, url: 'https://chatgpt.com/plugins/plugin_asdk_app_696f807d21a481918a1ed1f43d719ce9', verified: 'README claim; the host serves /.well-known/openai-apps-challenge per its OpenAPI'}
+- {directory: Cursor Directory, entry: mcp-global-database-3, url: 'https://cursor.directory/plugins/mcp-global-database-3', verified: README claim}
+related_surfaces:
+  rest_reference: https://api.globaldatabase.com/docs/v2/
+  ai_query_endpoint: 'POST https://api.globaldatabase.com/v2/ai/query — a server-side agent over the same tool set, streamed as SSE (tool_call / tool_result frames name the same tool ids, e.g. get_company_by_identifiers). See conventions/.'
+  n8n_node: https://github.com/global-database/n8n-nodes-globaldatabase

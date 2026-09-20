@@ -1,0 +1,130 @@
+generated: '2026-09-19'
+method: searched
+source: https://api.globaldatabase.com/docs/v2/ (Authentication, Errors, Metrics, Prospecting, Watch Companies, Regis API sections) + live unauthenticated probes of api.globaldatabase.com and mcp.globaldatabase.com, 2026-09-19
+summary: >-
+  Cross-cutting semantics of the Global Database v2 REST API (Django REST Framework, JSON,
+  static token auth), its SSE-streamed Regis AI-query endpoint, and the OAuth 2.1 hosted MCP
+  server. The REST surface is overwhelmingly read/lookup; the only mutating operations are the
+  company-watch subscription, the webhook callback registration, credit-report generation
+  (a paid purchase) and bank-account verification requests. No idempotency-key mechanism is
+  documented anywhere.
+authentication:
+  styles: [api_key_header, oauth2_authorization_code]
+  api_key_header: 'Authorization: Token <key>'
+  see: authentication/globaldatabase-com-authentication.yml
+base_urls:
+  rest: https://api.globaldatabase.com/v2/
+  mcp: https://mcp.globaldatabase.com/mcp
+content_types:
+  request: application/json
+  response: application/json
+  streaming: 'text/event-stream on POST /v2/ai/query (request `Accept: text/event-stream`)'
+  files: 'Credit reports: /v2/credit-report/report/{format}... with format json|html (json default)'
+pagination:
+  style: page-based
+  params: [page, per_page]
+  response_fields: [total_results, pages, total_companies]
+  documented_on: ['POST /v2/prospecting', 'GET /v2/companies/{id}/watch/events', 'POST /v2/employees']
+  note: 'The Copilot Studio instructions recommend per_page=1 and reading total_companies when only a count is wanted, because calls cost credits.'
+identifiers:
+  company_id: 'Integer Global Database company id (e.g. 20581257) used across companies, financial, ownership, digital-insights, kyb and watch paths; the same id feeds commercial and KYB tools (README: "ONE company_id feeds every by-id tool").'
+  country_code: ISO 3166-1 alpha-2, a hard filter on lookups.
+  registry_source_id: 'Credit reports use source_id of the form <country>-<n>-<registration_number> (e.g. GB-0-00445790).'
+  external_identifiers: [registration_number, vat_number, ticker, website, email, linkedin]
+filtering:
+  prospecting: 'POST body `filters` object keyed by nomenclature ids (company_status, number_of_employees {gt/lt}, location, industry, turnover, technology ...); resolve ids via GET /v2/nomenclatures/*.'
+idempotency:
+  documented: false
+  header: null
+  coverage: none
+  scope: []
+  notes: >-
+    No Idempotency-Key or equivalent replay-protection mechanism is documented for any
+    operation. The mutating surface is small — POST/PUT /v2/companies/{id}/watch/start,
+    DELETE /v2/companies/{id}/watch/stop, PUT /v2/companies/watch/callback,
+    POST /v2/credit-report/report/{format}[/file], POST /v2/bank-verification — and only the
+    PUT operations are idempotent by HTTP semantics. No `Idempotency` pointer is emitted.
+  agent_risk: >-
+    A retried POST /v2/credit-report/report/{format} after a timeout may generate (and bill) a
+    second report — the docs say generation "can take up to 3 minutes" and payments are
+    non-refundable. Use GET /v2/credit-report/{id}/check and GET /v2/credit-report/purchased to
+    reconcile before retrying.
+reversibility:
+  surfaces:
+  - write: 'POST|PUT /v2/companies/{id}/watch/start (subscribe to company changes)'
+    reversal: 'DELETE /v2/companies/{id}/watch/stop'
+    window: null
+    window_source: null
+    grade: documented
+    docs: https://api.globaldatabase.com/docs/v2/#stop-watch-company
+  - write: 'PUT /v2/companies/{id}/watch/fields/add'
+    reversal: 'PUT /v2/companies/{id}/watch/fields/remove'
+    window: null
+    grade: documented
+    docs: https://api.globaldatabase.com/docs/v2/#remove-watched-fields
+  - write: 'PUT /v2/companies/watch/callback (register webhook URL)'
+    reversal: 'Re-PUT with a new callback (the secret persists across changes); no DELETE documented.'
+    window: null
+    grade: documented
+    docs: https://api.globaldatabase.com/docs/v2/#set-callback-url
+  - write: 'POST /v2/credit-report/report/{format} (purchase/generate a credit report)'
+    reversal: null
+    window: null
+    grade: none
+    docs: https://www.globaldatabase.com/pricing-products
+    note: 'Pricing FAQ: "payments are processed upfront and are non-refundable". No cancel/refund operation exists. An agent should treat this call as irreversible spend.'
+  - write: 'POST /v2/bank-verification (Verification of Payee request)'
+    reversal: null
+    grade: none
+    note: 'A verification request is a query against a bank; nothing to reverse, but it is metered. History is readable via GET /v2/bank-verification/history.'
+  - write: 'MCP tools (all 23)'
+    reversal: na
+    grade: na
+    note: 'Landing page: "23 tools, all read-only ... Nothing writes back."'
+  overall_grade: documented
+  overall_note: 'Reversal paths exist for the watch/webhook surface but no window is stated anywhere; the one paid write (credit report) is explicitly non-refundable.'
+dry_run_mode:
+  supported: false
+  notes: 'No test/dry-run mode is documented. The AI-query `mode: "data"` returns raw tool JSON without prose but still consumes quota; it is a response-shape switch, not a dry run.'
+request_tracing:
+  supported: false
+  headers: []
+  notes: 'No request-id header is documented, and none was observed on the live 401 responses (headers: date, content-type, www-authenticate, allow, vary, x-frame-options, x-content-type-options, referrer-policy, cross-origin-opener-policy, strict-transport-security).'
+versioning:
+  scheme: url-path
+  current: v2
+  see: lifecycle/globaldatabase-com-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{"detail": string} | {"<field>": [messages]} | LimitError {access, error_guard, message_guard} | AI-query {detail, code}'
+  see: errors/globaldatabase-com-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  headers: ['X-Quota-* (AI query; live counters)', 'Retry-After (AI query)']
+  rest_limit_body: 'LimitError with error_guard "limits.daily" and the module that hit its guard'
+  quota_introspection: 'GET /v2/metrics (used / total per permission module), GET /v2/metrics/contacts?date_from&date_to'
+  see: rate-limits/globaldatabase-com-rate-limits.yml
+streaming:
+  endpoint: POST /v2/ai/query
+  protocol: SSE over POST (EventSource cannot be used; read with fetch + body reader or curl -N)
+  events: [status, tool_call, tool_result, generating, text, suggested_actions, done, error]
+  keepalive: 'comment lines starting with ":"'
+  modes: {ai: 'streamed written answer + tool data', data: 'raw tool results only, in the final done frame'}
+  statelessness: 'One self-contained question per call; no conversation history; query <= 4000 chars.'
+webhooks:
+  supported: true
+  registration: PUT /v2/companies/watch/callback
+  signature_header: X-GD-Signature
+  see: asyncapi/globaldatabase-com-companies-webhooks.yml
+credits_and_metering:
+  model: 'Credit-based; each call counts against per-module account quotas visible in GET /v2/metrics; MCP calls run against the user''s own account quota; AI-query counts one request per successful call plus the underlying data-product limits.'
+cross_links:
+  authentication: authentication/globaldatabase-com-authentication.yml
+  scopes: scopes/globaldatabase-com-scopes.yml
+  errors: errors/globaldatabase-com-problem-types.yml
+  lifecycle: lifecycle/globaldatabase-com-lifecycle.yml
+  rate_limits: rate-limits/globaldatabase-com-rate-limits.yml
+  webhooks: asyncapi/globaldatabase-com-companies-webhooks.yml
+  mcp: mcp/globaldatabase-com-mcp.yml
+  crosswalk: mcp/globaldatabase-com-tool-crosswalk.yml

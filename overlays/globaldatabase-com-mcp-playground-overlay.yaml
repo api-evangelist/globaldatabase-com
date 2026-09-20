@@ -1,0 +1,61 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for the Global Database MCP-host OpenAPI
+  version: 1.0.0
+  x-generated: '2026-09-19'
+  x-method: generated
+  x-source: openapi/_original/globaldatabase-com-mcp-playground-openapi.json (https://mcp.globaldatabase.com/openapi.json, fetched 2026-09-19)
+  description: >-
+    Enhancements API Evangelist applies on top of the FastAPI-generated document the MCP host
+    serves: a meaningful title/description in place of the default "FastAPI 0.1.0", the server
+    host, tags that separate data endpoints from OAuth/UI plumbing, and the binding from each
+    /api/* playground endpoint to the MCP tool family it backs. The original is never mutated.
+extends: ../openapi/globaldatabase-com-mcp-playground-openapi.yml
+actions:
+- target: $.info
+  update:
+    title: Global Database MCP server host (playground + OAuth 2.1) API
+    description: >-
+      FastAPI application behind https://mcp.globaldatabase.com. The /api/* endpoints back the
+      browser playground and mirror the read-only MCP tool families (company lookup by URL /
+      LinkedIn / identifiers, details, financials, ownership, prospecting, nomenclature, token
+      check). The /oauth/* endpoints are the OAuth 2.1 login, SSO, trial and consent pages that
+      front the MCP endpoint /mcp (not itself described here). Not a contract for the v2 REST
+      API at api.globaldatabase.com.
+    contact: {name: Global Database support, email: support@globaldatabase.com, url: 'https://mcp.globaldatabase.com'}
+    termsOfService: https://mcp.globaldatabase.com/static/terms.html
+    x-api-evangelist-profile: https://github.com/api-evangelist/globaldatabase-com
+- target: $
+  update:
+    tags:
+    - {name: playground-data, description: 'Data endpoints backing the browser playground; each maps to an MCP tool family.'}
+    - {name: oauth, description: 'OAuth 2.1 authorization-server UI: login, SSO, trial, consent.'}
+    - {name: meta, description: 'Landing page, health check, directory challenge.'}
+- target: $.paths['/api/company-by-url'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_by_website}
+- target: $.paths['/api/company-by-linkedin'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_by_linkedin}
+- target: $.paths['/api/autocomplete'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_by_identifiers}
+- target: $.paths['/api/company-details'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_details}
+- target: $.paths['/api/company-financials'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_financials}
+- target: $.paths['/api/company-ownership'].post
+  update: {tags: [playground-data], x-mcp-tool: get_company_ownership}
+- target: $.paths['/api/prospecting'].post
+  update: {tags: [playground-data], x-mcp-tool: prospecting}
+- target: $.paths['/api/nomenclature'].post
+  update: {tags: [playground-data], x-mcp-tool: get_nomenclature}
+- target: $.paths['/api/verify-token'].post
+  update: {tags: [playground-data], x-mcp-tool: check_api_key}
+- target: $.paths[?(@property.match(/^\/oauth\//))].*
+  update: {tags: [oauth]}
+- target: $.paths['/'].get
+  update: {tags: [meta]}
+- target: $.paths['/health'].get
+  update: {tags: [meta]}
+- target: $.paths['/playground'].get
+  update: {tags: [meta]}
+- target: $.paths['/.well-known/openai-apps-challenge'].get
+  update: {tags: [meta], description: 'Domain-verification challenge for the OpenAI ChatGPT Apps directory listing.'}

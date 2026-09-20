@@ -1,18 +1,155 @@
 aid: globaldatabase-com
 name: Global Database
-description: 'Global Database is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Global Database (GLOBAL DATA INTELLIGENCE Ltd, UK) is a B2B company-intelligence provider that sources
+  company records directly from 400+ official government registries across 200+ countries — 600M+ company
+  profiles with registry data, officers and shareholders, UBO and group structure, up to 20 years of filed
+  financials, credit reports, bank-account (Verification of Payee) checks, firmographics, contacts and
+  web-technology insights. It is delivered through a token-authenticated v2 REST API with signed change
+  webhooks, an SSE-streamed natural-language query endpoint (Regis), a hosted OAuth 2.1 MCP server with
+  23 read-only tools and three provider-published Agent Skills, an n8n node, bulk data feeds and CRM connectors.
+image: https://mcp.globaldatabase.com/static/logo.png
 url: https://raw.githubusercontent.com/api-evangelist/globaldatabase-com/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass local-v3 2026-09-19
+position: Producing
+x-identity:
+  legal_name: GLOBAL DATA INTELLIGENCE Ltd
+  headquarters: Northampton, United Kingdom
+  companies_house: 09410808
+  ico_registration: ZA526915
+  github: https://github.com/global-database
+  source: >-
+    provider pages (/privacy-notice, /processors, pricing FAQ) and the providers own Regis demo, 2026-09-19
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
 - Company
-apis: []
+- Company Data
+- KYB
+- Compliance
+- Business Verification
+- Beneficial Ownership
+- Financials
+- Credit Risk
+- Data Enrichment
+- Prospecting
+- Webhooks
+- MCP
+- AI Agents
+- United Kingdom
+apis:
+- name: Global Database API (v2)
+  description: >-
+    Token-authenticated REST API over the company-intelligence core: company search and lookup (overview,
+    autocomplete, enrichment by website / LinkedIn / email), company details, financials (by id or ticker),
+    ownership and group structure, digital insights, employees and contact enrichment, prospecting with
+    nomenclature-driven filters, the KYB registry API (search, lite/full details, officers, shareholders,
+    group structures, financials), credit reports, Verification-of-Payee bank verification, company logos,
+    usage metrics, and the Watch Companies API with signed webhooks. Documented as a Slate HTML reference;
+    no OpenAPI is published for this surface.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company Data
+  - KYB
+  - Financials
+  - Ownership
+  - Credit Reports
+  - Bank Verification
+  - Prospecting
+  - Enrichment
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/
+  - type: APIReference
+    url: https://api.globaldatabase.com/docs/v2/
+  - type: GettingStarted
+    url: https://api.globaldatabase.com/docs/v2/#authentication
+  - type: Webhooks
+    url: asyncapi/globaldatabase-com-companies-webhooks.yml
+  - type: ErrorCatalog
+    url: errors/globaldatabase-com-problem-types.yml
+  - type: Authentication
+    url: authentication/globaldatabase-com-authentication.yml
+  - type: Conventions
+    url: conventions/globaldatabase-com-conventions.yml
+  - type: RateLimits
+    url: rate-limits/globaldatabase-com-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/globaldatabase-com-lifecycle.yml
+  - type: DataModel
+    url: data-model/globaldatabase-com-data-model.yml
+  - type: Conformance
+    url: conformance/globaldatabase-com-conformance.yml
+  image: https://mcp.globaldatabase.com/static/logo.png
+- name: Global Database MCP Server
+  description: >-
+    Hosted remote Model Context Protocol server (streamable HTTP) exposing 23 read-only tools over company
+    profiles, financials, ownership, digital insights, people search and contact enrichment, prospecting
+    and KYB registry lookups, plus gdb:// reference resources and five prompts. OAuth 2.1 with PKCE and
+    dynamic client registration; RFC 8414 / RFC 9728 metadata on the host. Listed in the Official MCP
+    Registry (com.globaldatabase/mcp), Smithery and Glama; distribution metadata and three Agent Skills
+    at github.com/global-database/mcp-server. The host also serves a FastAPI-generated OpenAPI describing
+    its browser playground and OAuth pages (captured under openapi/).
+  humanURL: https://mcp.globaldatabase.com/
+  baseURL: https://mcp.globaldatabase.com/mcp
+  tags:
+  - MCP
+  - AI Agents
+  - Company Data
+  - KYB
+  - OAuth 2.1
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-mcp-playground-openapi.yml
+  - type: OpenAPI
+    url: https://mcp.globaldatabase.com/openapi.json
+    name: FastAPI-generated OpenAPI 3.1.0 for the MCP host (playground + OAuth pages), as served
+  - type: MCPServer
+    url: mcp/globaldatabase-com-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: Overlay
+    url: overlays/globaldatabase-com-mcp-playground-overlay.yaml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+  image: https://mcp.globaldatabase.com/static/logo.png
+- name: Regis AI Query API
+  description: >-
+    Natural-language question endpoint (POST /v2/ai/query) that runs a server-side agent over the same
+    tool set as the MCP server and streams the result as Server-Sent Events — status, tool_call, tool_result,
+    text, suggested_actions and done frames — in `ai` mode (written answer plus data) or `data` mode (raw
+    tool JSON only). Stateless, one question per call, query up to 4,000 characters; quota counters returned
+    in X-Quota-* headers with 429 + Retry-After on exhaustion. Marketed as Regis.
+  humanURL: https://api.globaldatabase.com/docs/v2/#regis-api
+  baseURL: https://api.globaldatabase.com/v2/ai/
+  tags:
+  - AI
+  - Natural Language
+  - SSE
+  - Company Data
+  - Registry Data
+  properties:
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#ai-query
+  - type: Conventions
+    url: conventions/globaldatabase-com-conventions.yml
+  - type: ErrorCatalog
+    url: errors/globaldatabase-com-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/globaldatabase-com-rate-limits.yml
+  image: https://mcp.globaldatabase.com/static/logo.png
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +157,102 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://globaldatabase.com/
+  url: https://www.globaldatabase.com/
+- type: DeveloperPortal
+  url: https://www.globaldatabase.com/api
+- type: Documentation
+  url: https://api.globaldatabase.com/docs/v2/
+- type: APIReference
+  url: https://api.globaldatabase.com/docs/v2/
+- type: GettingStarted
+  url: https://api.globaldatabase.com/docs/v2/#authentication
+- type: MCPServer
+  url: mcp/globaldatabase-com-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/globaldatabase-com-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgentSkill
+  url: skills/globaldatabase-com-company-due-diligence.md
+- type: AgentSkill
+  url: skills/globaldatabase-com-company-snapshot.md
+- type: AgentSkill
+  url: skills/globaldatabase-com-prospect-list.md
+- type: LLMsTxt
+  url: llms/globaldatabase-com-llms.txt
+- type: LLMsTxt
+  url: https://www.globaldatabase.com/llms.txt
+- type: WellKnown
+  url: well-known/globaldatabase-com-well-known.yml
+- type: Webhooks
+  url: asyncapi/globaldatabase-com-companies-webhooks.yml
+- type: Authentication
+  url: authentication/globaldatabase-com-authentication.yml
+- type: OAuthScopes
+  url: scopes/globaldatabase-com-scopes.yml
+- type: Conventions
+  url: conventions/globaldatabase-com-conventions.yml
+- type: ErrorCatalog
+  url: errors/globaldatabase-com-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/globaldatabase-com-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/globaldatabase-com-rate-limits.yml
+- type: Plans
+  url: plans/globaldatabase-com-plans-pricing.yml
+- type: Pricing
+  url: https://www.globaldatabase.com/pricing-products
+- type: Packages
+  url: packages/globaldatabase-com-packages.yml
+- type: Conformance
+  url: conformance/globaldatabase-com-conformance.yml
+- type: Compliance
+  url: conformance/globaldatabase-com-conformance.yml
+- type: DataModel
+  url: data-model/globaldatabase-com-data-model.yml
+- type: Documentation
+  url: https://www.globaldatabase.com/data-dictionary
+  name: Data dictionary — every field, format and identifier
+- type: RegulatoryPosture
+  url: regulatory/globaldatabase-com-regulatory-posture.yml
+- type: Subprocessors
+  url: https://www.globaldatabase.com/processors
+- type: DataSubjectRequest
+  url: https://www.globaldatabase.com/gdpr
+- type: AgenticAccess
+  url: agentic-access/globaldatabase-com-agentic-access.yml
+- type: DomainSecurity
+  url: security/globaldatabase-com-domain-security.yml
+- type: GitHubOrganization
+  url: https://github.com/global-database
+- type: SourceCode
+  url: https://github.com/global-database/n8n-nodes-globaldatabase
+- type: Blog
+  url: https://www.globaldatabase.com/blog
+- type: Newsroom
+  url: https://www.globaldatabase.com/blog/news
+- type: CaseStudies
+  url: https://www.globaldatabase.com/customers
+- type: SignUp
+  url: https://platform.globaldatabase.com/public/signup/free_tier_ai
+- type: Login
+  url: https://platform.globaldatabase.com/
+- type: Support
+  url: https://www.globaldatabase.com/contact-us
+- type: Contact
+  url: mailto:support@globaldatabase.com
+- type: TermsOfService
+  url: https://www.globaldatabase.com/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.globaldatabase.com/privacy-notice
+- type: Careers
+  url: https://www.globaldatabase.com/careers
+- type: Partners
+  url: https://www.globaldatabase.com/become-partner
+- type: About
+  url: https://www.globaldatabase.com/about
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v3

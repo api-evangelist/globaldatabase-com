@@ -1,0 +1,47 @@
+generated: '2026-09-19'
+method: searched
+source: https://api.globaldatabase.com/docs/v2/ + https://www.globaldatabase.com/regis-api + https://www.globaldatabase.com/terms-and-conditions + live probes 2026-09-19
+versioning:
+  scheme: url-path
+  current: v2
+  base_url: https://api.globaldatabase.com/v2/
+  notes: >-
+    All documented REST endpoints sit under /v2/. The marketing page for Regis shows a
+    `POST api.globaldatabase.com/v1/regis/query` mock-up while the reference documents
+    `POST /v2/ai/query` — the v1 path is not in the reference and https://api.globaldatabase.com/docs/v1/
+    returns 503, so v2 is the only documented version. No version header, no date-based
+    versioning, no documented version-negotiation.
+  mcp_server_version: '0.2.1 (server.json / plugin manifests; the Official MCP Registry copy reads 0.2.0)'
+changelog:
+  url: null
+  artifact: null
+  notes: >-
+    No API changelog or release-notes page was found (www /changelog 404, api /docs/v2/changelog
+    404). The company blog (https://www.globaldatabase.com/blog) and news
+    (https://www.globaldatabase.com/blog/news) carry product announcements (KYB API launch, full
+    global coverage, ISO 27701) but are not a dated API changelog. No ChangeLog pointer is emitted.
+status_page:
+  url: null
+  notes: 'No status page found: status.globaldatabase.com does not resolve, www /status 404. The MCP host exposes GET /health (200 application/json) and the landing page shows an "Online" badge for the endpoint; that is a liveness check, not a status page. No StatusPage pointer is emitted.'
+  probed:
+  - {url: 'https://status.globaldatabase.com/', status: dns-failure, checked: '2026-09-19'}
+  - {url: 'https://www.globaldatabase.com/status', status: 404, checked: '2026-09-19'}
+  - {url: 'https://mcp.globaldatabase.com/health', status: 200, checked: '2026-09-19'}
+deprecation:
+  policy_documented: false
+  deprecated_operations: []
+  notes: 'No deprecation or sunset policy located; no Deprecation/Sunset headers documented. No Deprecation pointer is emitted.'
+sla:
+  documented: false
+  notes: >-
+    No API SLA is published. The Credit Report API states generation "can be instant or take up
+    to 3 minutes to complete" (docs v2). Data freshness commitments are marketing statements:
+    "Changes recorded within 24 hours of registry filing" and "Contact data is verified via SMTP
+    ping every 90 days" (https://www.globaldatabase.com/our-data).
+terms:
+  url: https://www.globaldatabase.com/terms-and-conditions
+  status: 200
+  cancellation: 'Monthly memberships cancellable any time before the billing date; yearly via account manager; payments upfront and non-refundable (pricing FAQ, https://www.globaldatabase.com/pricing-products).'
+support:
+  email: support@globaldatabase.com
+  contact_page: https://www.globaldatabase.com/contact-us

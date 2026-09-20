@@ -1,0 +1,20 @@
+generated: '2026-09-19'
+method: probed
+source: https://mcp.globaldatabase.com/.well-known/oauth-protected-resource + https://mcp.globaldatabase.com/.well-known/oauth-authorization-server + https://github.com/global-database/mcp-server (README, Copilot Studio section)
+docs: https://github.com/global-database/mcp-server#microsoft-copilot-studio
+scope_count: 0
+summary: >-
+  The provider runs an OAuth 2.1 authorization server for its MCP endpoint but publishes NO
+  scopes: the RFC 9728 protected-resource document declares `scopes_supported: []` and the
+  RFC 8414 document omits `scopes_supported` entirely. The README states it plainly ("the
+  server publishes no scopes, and a non-empty one fails the token request"). Authorization is
+  therefore all-or-nothing at the account level; entitlements (e.g. the AI-query entitlement
+  that returns 403 on POST /v2/ai/query) are enforced per account/module server-side, not via
+  OAuth scope. The consent page ("You see exactly what the assistant can read, and you can
+  revoke it later" — landing page) is coarse-grained. The REST API uses a static token with no
+  scope concept; per-module permissions surface only through GET /v2/metrics
+  (permission / module / app blocks in the LimitError body).
+scopes: []
+account_level_entitlements_observed_in_docs:
+- {name: AI-query entitlement, evidence: 'POST /v2/ai/query returns 403 {detail, code} "No AI-query entitlement on the account" (docs v2, Regis API errors table).'}
+- {name: module permissions, evidence: 'LimitError body carries access.permission / access.module / access.app and error_guard "limits.daily" (docs v2, Errors).'}

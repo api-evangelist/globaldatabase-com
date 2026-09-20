@@ -1,0 +1,69 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Registry sweeps of npm (registry.npmjs.org search "globaldatabase" + direct package lookup),
+  PyPI (globaldatabase, global-database, globaldatabase-api, global_database), GitHub search and
+  the provider's two GitHub accounts (github.com/GlobalDatabase, github.com/global-database), the
+  v2 reference (code samples only; no SDK section), the MCP server README, and the n8n
+  package.json. Checked 2026-09-19.
+summary:
+  first_party_sdk_count: 0
+  first_party_package_count: 3
+  third_party_package_count: 0
+  note: >-
+    Global Database publishes NO first-party client library (SDK) in any package registry. Its
+    first-party integration surfaces are a hosted MCP server, an n8n community node (source on
+    GitHub, not yet published to npm — registry.npmjs.org/n8n-nodes-globaldatabase returns
+    "Not found"), a VS Code extension whose source ships in the MCP repo, the Claude Code /
+    Cursor plugin manifests in that same repo, a Chrome extension (marketing pages), and native
+    CRM connectors (Salesforce, HubSpot, Microsoft Dynamics — marketing pages). Because none of
+    these is an SDK, NO `SDKs` pointer is emitted; sdk_count must read a genuine zero.
+github_organization:
+  found: true
+  accounts:
+  - {url: 'https://github.com/global-database', type: User, public_repos: 3, note: 'The active account: mcp-server, n8n-nodes-globaldatabase, mcp-registry (fork of docker/mcp-registry). Author email office@globaldatabase.com in package.json; owner support@globaldatabase.com in marketplace.json.'}
+  - {url: 'https://github.com/GlobalDatabase', type: Organization, public_repos: 1, blog: 'https://www.globaldatabase.com/', note: 'Legacy org: api-resources (2018) holding nomenclatures.json (regions/countries/etc. reference lists); README 404.'}
+packages:
+- name: n8n-nodes-globaldatabase
+  language: typescript
+  registry: none
+  registry_note: 'Not on npm as of 2026-09-19 (registry.npmjs.org/n8n-nodes-globaldatabase -> {"error":"Not found"}); source only.'
+  repository: https://github.com/global-database/n8n-nodes-globaldatabase
+  official: true
+  kind: n8n community node (declarative routing, n8nNodesApiVersion 1) wrapping https://api.globaldatabase.com/v2
+  version: 0.1.0
+  version_source: package.json in the repository (main)
+  published: null
+  published_note: 'No registry release; repository last pushed 2026-09-12.'
+  license: MIT
+  operations: [Find Company by Website, Find Company (By Name or Identifier), Get Company Financials, KYB / Registry Search]
+- name: global-database-mcp (VS Code extension)
+  language: typescript
+  registry: none
+  registry_note: 'Publisher id "global-database" declared in vscode-extension/package.json; not verified on the Visual Studio Marketplace by this pass.'
+  repository: https://github.com/global-database/mcp-server/tree/main/vscode-extension
+  official: true
+  kind: 'VS Code extension contributing an mcpServerDefinitionProvider for the hosted server (engines vscode ^1.101.0)'
+  version: 0.2.1
+  version_source: vscode-extension/package.json
+  published: null
+  license: MIT
+- name: com.globaldatabase/mcp (MCP registry manifest + Claude Code / Cursor / Gemini plugin bundle)
+  language: null
+  registry: mcp-registry
+  registry_url: https://registry.modelcontextprotocol.io/v0/servers?search=globaldatabase
+  repository: https://github.com/global-database/mcp-server
+  official: true
+  kind: 'Distribution metadata for the REMOTE server (server.json, mcp.json, .claude-plugin/marketplace.json, .cursor-plugin/plugin.json, gemini-extension.json) plus three Agent Skills; nothing to install locally — see mcp/globaldatabase-com-mcp.yml.'
+  version: 0.2.1
+  version_source: server.json / plugin.json in the repository (the registry copy reads 0.2.0)
+  published: '2026-09-12'
+  published_note: 'Repository last push date; the Official MCP Registry does not expose a dated release on the search endpoint. Repository created 2026-07-14.'
+  license: MIT (metadata only; server implementation proprietary per README)
+  install: '/plugin marketplace add global-database/mcp-server && /plugin install global-database@global-database  (Claude Code) · gemini extensions install https://github.com/global-database/mcp-server'
+other_first_party_surfaces:
+- {name: Chrome extension, kind: browser extension, source: 'https://www.globaldatabase.com/ nav "Browser Extension"; llms.txt "Chrome Extension"', store_url: null, note: 'Web Store listing URL not found on the pages read.'}
+- {name: CRM connectors, kind: native integrations, targets: [Salesforce, HubSpot, Microsoft Dynamics], source: 'https://www.globaldatabase.com/ nav "CRM Integration"'}
+- {name: api-resources/nomenclatures.json, kind: reference data, url: 'https://github.com/GlobalDatabase/api-resources', note: '2018 static copy of the nomenclature lists (regions, countries, ...) now served live at /v2/nomenclatures/*.'}
+third_party_packages: []
+sdk_pointer_emitted: false

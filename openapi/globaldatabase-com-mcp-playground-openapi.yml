@@ -1,0 +1,797 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /playground:
+    get:
+      summary: Playground
+      operationId: playground_playground_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/verify-token:
+    post:
+      summary: Api Verify Token
+      operationId: api_verify_token_api_verify_token_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company-by-url:
+    post:
+      summary: Api Company By Url
+      operationId: api_company_by_url_api_company_by_url_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyByUrlRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company-by-linkedin:
+    post:
+      summary: Api Company By Linkedin
+      operationId: api_company_by_linkedin_api_company_by_linkedin_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyByLinkedinRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company-financials:
+    post:
+      summary: Api Company Financials
+      operationId: api_company_financials_api_company_financials_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyFinancialsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/autocomplete:
+    post:
+      summary: Api Autocomplete
+      operationId: api_autocomplete_api_autocomplete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutocompleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/nomenclature:
+    post:
+      summary: Api Nomenclature
+      operationId: api_nomenclature_api_nomenclature_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NomenclatureRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/prospecting:
+    post:
+      summary: Api Prospecting
+      operationId: api_prospecting_api_prospecting_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProspectingRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company-details:
+    post:
+      summary: Api Company Details
+      operationId: api_company_details_api_company_details_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyDetailsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company-ownership:
+    post:
+      summary: Api Company Ownership
+      operationId: api_company_ownership_api_company_ownership_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyOwnershipRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/login:
+    get:
+      summary: Login Form
+      operationId: login_form_oauth_login_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Login Submit
+      description: 'Authenticate a session with an API key instead of signing in.
+
+
+        No page offers this any more — the sign-in screen has one button and no
+
+        input. It stays because the flow needs a way to be driven without a
+
+        browser: the test suite uses it, and so does any internal tooling that
+
+        already holds a key. Nothing links here, so nothing invites a user to
+
+        paste a credential into a form.'
+      operationId: login_submit_oauth_login_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_login_submit_oauth_login_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/sso/start:
+    get:
+      summary: Sso Start
+      operationId: sso_start_oauth_sso_start_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/sso/callback:
+    get:
+      summary: Sso Callback
+      operationId: sso_callback_oauth_sso_callback_get
+      parameters:
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Code
+      - name: state
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: State
+      - name: error
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Error
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/trial:
+    get:
+      summary: Trial Form
+      operationId: trial_form_oauth_trial_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Trial Submit
+      description: Create the account and email a code. Nothing is signed in yet.
+      operationId: trial_submit_oauth_trial_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_trial_submit_oauth_trial_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/trial/verify:
+    post:
+      summary: Trial Verify
+      description: 'The code screen''s only job, and the point of the whole detour.
+
+
+        A correct code authenticates the person here — no password, no second tab,
+
+        no link that outlives this session. From the platform token onwards the path
+
+        is the one everybody else takes, so the consent screen they land on is the
+
+        same screen, showing the same account and the same access.'
+      operationId: trial_verify_oauth_trial_verify_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_trial_verify_oauth_trial_verify_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/consent:
+    get:
+      summary: Consent Form
+      operationId: consent_form_oauth_consent_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Consent Submit
+      operationId: consent_submit_oauth_consent_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_consent_submit_oauth_consent_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /oauth/deny:
+    post:
+      summary: Consent Deny
+      operationId: consent_deny_oauth_deny_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_consent_deny_oauth_deny_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /:
+    get:
+      summary: Landing
+      operationId: landing__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /health:
+    get:
+      summary: Health Check
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /.well-known/openai-apps-challenge:
+    get:
+      summary: Openai Apps Challenge
+      operationId: openai_apps_challenge__well_known_openai_apps_challenge_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    AutocompleteRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        country_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Code
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        registration_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Registration Number
+        vat_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vat Number
+        ticker:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ticker
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        linkedin:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin
+      type: object
+      required:
+      - api_key
+      title: AutocompleteRequest
+    Body_consent_deny_oauth_deny_post:
+      properties:
+        session:
+          type: string
+          title: Session
+      type: object
+      required:
+      - session
+      title: Body_consent_deny_oauth_deny_post
+    Body_consent_submit_oauth_consent_post:
+      properties:
+        session:
+          type: string
+          title: Session
+      type: object
+      required:
+      - session
+      title: Body_consent_submit_oauth_consent_post
+    Body_login_submit_oauth_login_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - session
+      - api_key
+      title: Body_login_submit_oauth_login_post
+    Body_trial_submit_oauth_trial_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        email:
+          type: string
+          title: Email
+          default: ''
+      type: object
+      required:
+      - session
+      title: Body_trial_submit_oauth_trial_post
+    Body_trial_verify_oauth_trial_verify_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        email:
+          type: string
+          title: Email
+          default: ''
+        code:
+          type: string
+          title: Code
+          default: ''
+      type: object
+      required:
+      - session
+      title: Body_trial_verify_oauth_trial_verify_post
+    CompanyByLinkedinRequest:
+      properties:
+        linkedin_url:
+          type: string
+          title: Linkedin Url
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - linkedin_url
+      - api_key
+      title: CompanyByLinkedinRequest
+    CompanyByUrlRequest:
+      properties:
+        url:
+          type: string
+          title: Url
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - url
+      - api_key
+      title: CompanyByUrlRequest
+    CompanyDetailsRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - api_key
+      title: CompanyDetailsRequest
+    CompanyFinancialsRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        year:
+          type: integer
+          title: Year
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - year
+      - api_key
+      title: CompanyFinancialsRequest
+    CompanyOwnershipRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - api_key
+      title: CompanyOwnershipRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    NomenclatureRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        nomenclature_type:
+          type: string
+          title: Nomenclature Type
+        parent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent
+      type: object
+      required:
+      - api_key
+      - nomenclature_type
+      title: NomenclatureRequest
+    ProspectingRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        filters:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Filters
+        sorting:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Sorting
+      type: object
+      required:
+      - api_key
+      title: ProspectingRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VerifyTokenRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - api_key
+      title: VerifyTokenRequest
+servers:
+- url: https://mcp.globaldatabase.com
+  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization
+    server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because
+    FastAPI emits host-relative paths.'
+x-api-evangelist:
+  harvested: '2026-09-19'
+  source: https://mcp.globaldatabase.com/openapi.json
+  http_status: 200
+  content_type: application/json
+  original: openapi/_original/globaldatabase-com-mcp-playground-openapi.json
+  ownership: 'Served from mcp.globaldatabase.com, the host Global Database names as its MCP server on api.globaldatabase.com/docs/v2/#mcp-server,
+    on the mcp.globaldatabase.com landing page, and in github.com/global-database/mcp-server server.json. It is
+    the FastAPI-generated description of that host: the /api/* playground endpoints that back the browser demo (one
+    per MCP tool family), the OAuth 2.1 login/consent/trial pages, and the OpenAI Apps challenge. It is NOT a contract
+    for the v2 REST API at api.globaldatabase.com, which publishes an HTML reference only (no OpenAPI found on any
+    host).'
+  modifications: servers[] added; nothing else changed.

@@ -1,0 +1,28 @@
+generated: '2026-09-19'
+method: searched
+source: https://github.com/global-database/mcp-server/tree/main/skills (SKILL.md files saved verbatim; shipped by the provider in its Claude Code / Cursor plugin bundle, version 0.2.1)
+provider_published: true
+license: MIT
+grounding: >-
+  The skills are written against the hosted MCP server's tools (get_company_by_website,
+  get_company_by_identifiers, kyb_search, kyb_officers, kyb_shareholders, kyb_group_structure,
+  kyb_financial, prospecting, get_nomenclature, search_employees, enrich_employee_contacts ...),
+  every one of which is in the provider's published tool list (mcp/globaldatabase-com-mcp.yml).
+  No REST operationIds exist to cite because the v2 API publishes no OpenAPI; the tool
+  crosswalk binds nine of the tools to the playground OpenAPI operations.
+skills:
+- file: globaldatabase-com-company-due-diligence.md
+  name: company-due-diligence
+  description: Structured KYB / due-diligence review — resolve the entity, then registry details, officers, shareholders, group structure and financials into one dossier.
+  api: mcp/globaldatabase-com-mcp.yml
+  operations: [get_company_by_website, get_company_by_linkedin, get_company_by_identifiers, kyb_search, kyb_company_details, kyb_officers, kyb_shareholders, kyb_group_structure, kyb_financial]
+- file: globaldatabase-com-company-snapshot.md
+  name: company-snapshot
+  description: Short one-screen profile of a company — identity, size, financial headline, digital footprint.
+  api: mcp/globaldatabase-com-mcp.yml
+  operations: [get_company_by_website, get_company_by_linkedin, get_company_by_identifiers, get_company_details, get_company_financials, get_digital_insights]
+- file: globaldatabase-com-prospect-list.md
+  name: prospect-list
+  description: Build a target account list from firmographic filters, optionally enriched with contacts.
+  api: mcp/globaldatabase-com-mcp.yml
+  operations: [get_nomenclature, prospecting, get_company_details, search_employees, get_employee_details, find_people_by_domain, enrich_employee_contacts]

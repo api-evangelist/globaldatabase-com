@@ -1,0 +1,62 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: >-
+  Artifacts harvested this run (well-known/, security/, lifecycle/, conformance/), the legal
+  pages https://www.globaldatabase.com/gdpr, /privacy-notice, /privacy-policy, /processors,
+  /terms-and-conditions, /cookies-policy, the data pages /our-data and /data-dictionary, and
+  live probes of the conventional paths listed under probed[]. Harvest only: this file records
+  what the provider publishes and infers nothing about which regimes apply.
+entity:
+  legal_name: GLOBAL DATA INTELLIGENCE Ltd
+  jurisdiction: United Kingdom
+  companies_house: '09410808 (the provider''s own Regis demo resolves "Global Data Intelligence Limited" to GB 09410808; registered office Artisans'' House, 7 Queensbridge, Northampton NN4 7BF per the same demo)'
+  ico_registration: 'https://ico.org.uk/ESDWebPages/Entry/ZA526915 (cited in the pricing FAQ)'
+  processing_affiliate: 'Global Database SRL, Republic of Moldova (platform maintenance, under UK SCCs) — /processors'
+signals:
+  subprocessors:
+    url: https://www.globaldatabase.com/processors
+    status: 200
+    dated: false
+    entries:
+    - {name: Hetzner Online GmbH, country: DE, role: hosting and storage}
+    - {name: Global Database SRL, country: MD, role: platform maintenance, transfer_mechanism: UK Standard Contractual Clauses}
+    - {name: PayPal Inc., role: payment processing (named as an independent controller in /privacy-notice)}
+    note: 'A short prose list linked from the privacy notice ("An up-to-date list of data processors can be found HERE"); no table, no last-updated date, no change-notification mechanism stated.'
+  data_subject_request:
+    url: https://www.globaldatabase.com/gdpr
+    status: 200
+    mechanism: 'Opt-out / suppression: "If a data subject requests that their data is removed from the database, it is suppressed so that it cannot be accessed or added again at a later date." The page publishes the Legitimate Interests Assessment (purpose, lawful business objective under PECR 2003 / GDPR Recital 47, reasonable expectation, data minimisation, opt-out) that underpins the B2B contact data.'
+    api: null
+    note: 'No web form or dedicated DSAR endpoint is published; the privacy notice directs requests to the company. The pricing FAQ states platform contacts "have been notified that we have collected their corporate email addresses and they have the right to be removed."'
+  data_residency:
+    url: https://www.globaldatabase.com/processors
+    regions: [de]
+    note: 'Hosting and storage at Hetzner Online GmbH in Germany (stated). No customer-selectable region, no residency documentation in the API reference.'
+absent_signals:
+  sbom: {probed: [https://www.globaldatabase.com/security/sbom], result: 404}
+  support_lifetime: {note: 'No versioning/support-period page; v2 is the only documented version (lifecycle/).'}
+  accessibility_conformance: {probed: [https://www.globaldatabase.com/accessibility, https://www.globaldatabase.com/accessibility/vpat], result: 404}
+  training_data_summary: {probed: [https://www.globaldatabase.com/ai/transparency], result: 404, note: 'The Regis pages describe the retrieval-only design ("Nothing in the response originates in model weights") but publish no training-data summary.'}
+  ai_transparency: {probed: [https://www.globaldatabase.com/ai/transparency], result: 404, note: 'Product pages (/regis-api, /company-data-for-ai-agents) describe field-level source citation and refusal behaviour; that is product documentation, not a transparency disclosure, and is not counted.'}
+  global_privacy_control: {honored: null, note: 'No published GPC statement on the privacy notice or cookies policy; not tested by header.'}
+  incident_notification: {probed: [https://www.globaldatabase.com/legal/dpa, https://www.globaldatabase.com/dpa], result: 404, note: 'No DPA published; no stated breach-notification SLA.'}
+  age_assurance: {note: 'B2B product; nothing published.'}
+  notice_and_action: {probed: [https://www.globaldatabase.com/legal/report-content], result: 404}
+  transparency_report: {probed: [https://www.globaldatabase.com/transparency], result: 404}
+  exit_assistance: {note: 'Cancellation terms only (pricing FAQ); no data-export/exit-assistance commitment beyond the platform''s export credits.'}
+probed:
+- {url: https://www.globaldatabase.com/processors, status: 200}
+- {url: https://www.globaldatabase.com/gdpr, status: 200}
+- {url: https://www.globaldatabase.com/privacy-notice, status: 200}
+- {url: https://www.globaldatabase.com/privacy-policy, status: 200}
+- {url: https://www.globaldatabase.com/cookies-policy, status: 200}
+- {url: https://www.globaldatabase.com/terms-and-conditions, status: 200}
+- {url: https://www.globaldatabase.com/accessibility, status: 404}
+- {url: https://www.globaldatabase.com/legal/subprocessors, status: 404}
+- {url: https://www.globaldatabase.com/sub-processors, status: 404}
+- {url: https://www.globaldatabase.com/legal/dpa, status: 404}
+- {url: https://www.globaldatabase.com/dpa, status: 404}
+- {url: https://www.globaldatabase.com/security, status: 404}
+- {url: https://www.globaldatabase.com/trust, status: 404}
+- {url: https://www.globaldatabase.com/global-databases-iso-27701-certification-a-step-forward-in-data-security-and-privacy-excellence-1, status: 200, note: 'ISO 27701 announcement (see conformance/); a claim, no certificate.'}

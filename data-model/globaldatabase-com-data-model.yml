@@ -1,0 +1,49 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.globaldatabase.com/data-dictionary (field groups and counts) + https://api.globaldatabase.com/docs/v2/ (Company Data identifiers table, KYB, Ownership, Financials, Employees, Watch, Credit Report, Bank Verification sections) + the MCP README ("ONE company_id feeds every by-id tool")
+docs: https://www.globaldatabase.com/data-dictionary
+summary: >-
+  Entity-relationship graph of the Global Database company-intelligence core as the provider
+  documents it. The v2 REST API publishes no OpenAPI, so this is read from the data dictionary
+  (18 company-registry fields, 12 officer fields, plus shareholder, financial, ownership,
+  firmographic and digital-insight groups) and the reference's endpoint paths. The playground
+  OpenAPI on the MCP host contributes only request shapes (CompanyByUrlRequest,
+  CompanyDetailsRequest, ...), not response entities.
+notation: >-
+  Every entity hangs off an integer Company id (the same id serves the commercial /v2/companies,
+  /v2/financial, /v2/ownership, /v2/digital-insights paths and the registry-sourced /v2/kyb
+  paths). Relationships use has_one / has_many / belongs_to with the reference field in `via`.
+identifiers:
+  company_id: {type: integer, example: 20581257, note: 'Primary key across all by-id endpoints; the data dictionary also shows a "Global Database ID" of the form GDB12345678 for delivered records.'}
+  registry_source_id: {type: string, pattern: '<ISO2>-<n>-<registration_number>', example: GB-0-00445790, used_by: Credit Report API}
+  external: [registration_number, vat_number, ticker, website, email, linkedin]
+entities:
+- {name: Company, domain: core, description: 'Registered legal entity: legal/trading name, registration number, VAT, founding date, status (Active/Inactive/Intermediate), legal form, country/region/address, geo, office locations, industry codes (SIC/NACE/NAICS/ISIC). Endpoints: POST /v2/overview, POST /v2/autocomplete, GET /v2/companies/{id}, POST /v2/enrichment/*.'}
+- {name: Officer, domain: people, aliases: [Director, Secretary], description: 'Officer/director record: officer id (OFF-...), full name, role, month/year of birth, nationality, residence, appointed/resigned dates. Endpoints: GET /v2/kyb/{id}/officers, POST /v2/kyb/officers/search.'}
+- {name: Shareholder, domain: ownership, description: 'Shareholder with share type, quantity, nominal value, percentage; individual or corporate. Endpoints: GET /v2/kyb/{id}/shareholders, POST /v2/kyb/shareholders/search/{view_mode}, GET /v2/ownership/{id}.'}
+- {name: OwnershipLink, domain: ownership, aliases: [GroupStructure], description: 'Parent / domestic-ultimate / global-ultimate / subsidiary relationships with ownership percentages; UBO / PSC. Endpoints: GET /v2/kyb/{id}/group-structures/{lite|full}, GET /v2/ownership/{id}.'}
+- {name: FinancialStatement, domain: financials, description: 'Filed accounts per year: turnover, profit/loss, EBITDA, assets, liabilities, equity, employees, 100+ ratios with YoY changes; up to 20 years. Endpoints: GET /v2/financial/{id}, GET /v2/financial/ticker, GET /v2/kyb/{id}/financial.'}
+- {name: Employee, domain: people, aliases: [Contact], description: 'Person at a company with role, department, seniority, email/phone (validated); distinct from registry Officers. Endpoints: POST /v2/employees, GET /v2/employees/{id}, POST /v2/enrichment/employee/*.'}
+- {name: DigitalInsight, domain: digital, description: 'Web technologies, traffic, rankings, traffic sources, WHOIS for a company domain. Endpoints: POST /v2/digital-insights, GET /v2/digital-insights/{id}.'}
+- {name: CreditReport, domain: risk, description: 'Generated credit report (json|html) with status pending/ready, expiry, report_id; purchased reports listed separately. Endpoints: /v2/credit-report/*.'}
+- {name: WatchSubscription, domain: monitoring, description: 'Per-company subscription to a list of watched fields, plus the account-wide callback URL + secret. Endpoints: /v2/companies/{id}/watch/*, /v2/companies/watch/callback.'}
+- {name: WatchEvent, domain: monitoring, description: 'A detected change: event_type/field, status, message, old/new value, date_created. Delivered by webhook or GET /v2/companies/{id}/watch/events.'}
+- {name: BankVerification, domain: risk, description: 'Verification of Payee request/result: account_id_scheme (IBAN), bank_id_scheme (BICFI), request_name, response_matched, response_reason_code (FULL_MATCH ...). Endpoints: /v2/bank-verification*.'}
+- {name: Nomenclature, domain: reference, description: 'Controlled vocabularies with integer ids and parent chains: country, region, states, company-status, company-type, legal-form, activity-type, industry-focus, ISIC, NACE Rev. 2, country SIC, department, seniority, technology, currency, KYB countries/regions. Endpoints: GET /v2/nomenclatures/*.'}
+- {name: UsageMetric, domain: account, description: 'Per permission-module used/total counters. Endpoints: GET /v2/metrics, GET /v2/metrics/contacts.'}
+relationships:
+- {from: Company, rel: has_many, to: Officer, via: company_id}
+- {from: Company, rel: has_many, to: Shareholder, via: company_id}
+- {from: Company, rel: has_many, to: OwnershipLink, via: company_id, note: 'parent / subsidiary / ultimate-owner edges; both ends are Companies (or natural-person UBOs)'}
+- {from: OwnershipLink, rel: belongs_to, to: Company, via: parent_company_id}
+- {from: Company, rel: has_many, to: FinancialStatement, via: company_id, note: one per fiscal year}
+- {from: Company, rel: has_many, to: Employee, via: company_id}
+- {from: Company, rel: has_one, to: DigitalInsight, via: company_id}
+- {from: Company, rel: has_many, to: CreditReport, via: source_id}
+- {from: Company, rel: has_one, to: WatchSubscription, via: company_id}
+- {from: WatchSubscription, rel: has_many, to: WatchEvent, via: company_id + field}
+- {from: Company, rel: belongs_to, to: Nomenclature, via: 'country_code / company_status / legal_form / industry codes'}
+- {from: Employee, rel: belongs_to, to: Nomenclature, via: department / seniority}
+- {from: BankVerification, rel: belongs_to, to: Company, via: 'request_name / LEI-TXID (optional; the request is keyed by account + name)'}
+field_group_counts_from_dictionary: {Company Registry Data: 18, Officers & Directors: 12}
+render: null

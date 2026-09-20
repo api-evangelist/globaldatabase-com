@@ -1,0 +1,75 @@
+generated: '2026-09-19'
+method: searched
+source: https://mcp.globaldatabase.com/.well-known/oauth-authorization-server + /.well-known/oauth-protected-resource + https://api.globaldatabase.com/docs/v2/ (Bank Verification, Nomenclatures, Regis, Errors sections) + live probes 2026-09-19
+standards:
+- id: oauth2
+  conforms: true
+  evidence: MCP host publishes RFC 8414 authorization-server metadata (authorization_code + refresh_token grants, client_secret_post/basic) at https://mcp.globaldatabase.com/.well-known/oauth-authorization-server (200 application/json).
+- id: oauth2-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported [S256] in the authorization-server metadata.
+- id: oauth2-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://mcp.globaldatabase.com/register advertised (RFC 7591); landing page and README describe self-registration with no client id/secret to paste.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: https://mcp.globaldatabase.com/.well-known/oauth-authorization-server -> 200, valid JSON with issuer/authorization_endpoint/token_endpoint.
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: https://mcp.globaldatabase.com/.well-known/oauth-protected-resource (and the /mcp-suffixed form named in the 401 WWW-Authenticate resource_metadata parameter) -> 200 {resource, authorization_servers, scopes_supported, bearer_methods_supported}.
+- id: mcp
+  conforms: true
+  evidence: Hosted Model Context Protocol server over streamable HTTP at https://mcp.globaldatabase.com/mcp; unauthenticated tools/list answers 401 with the MCP-authorization-spec Bearer challenge carrying resource_metadata; listed in the Official MCP Registry as com.globaldatabase/mcp (status active).
+- id: oidc-discovery
+  conforms: false
+  evidence: https://mcp.globaldatabase.com/.well-known/openid-configuration returns 200 but is a byte-identical copy of the OAuth AS metadata — no jwks_uri, subject_types_supported, id_token_signing_alg_values_supported or userinfo_endpoint, all REQUIRED by OpenID Connect Discovery 1.0 §3. No id_token is issued; this is not OIDC.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt is 404 on www and mcp, 503 on api, and an SPA shell on platform.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are application/json with a Django-REST-Framework `{"detail": ...}` body (observed live on 401) or a field-keyed validation map; the AI-query endpoint adds `code`. No application/problem+json anywhere in the docs.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Deprecation/Sunset headers or deprecation policy located in the v2 reference or the site.
+- id: sse-server-sent-events
+  conforms: true
+  evidence: POST /v2/ai/query streams `event:`/`data:` frames (status, tool_call, tool_result, generating, text, suggested_actions, done, error) with `:` keepalive comments — docs v2 Regis API section.
+- id: openapi-3.1
+  conforms: true
+  evidence: The MCP host serves a valid OpenAPI 3.1.0 document at https://mcp.globaldatabase.com/openapi.json (200, 15,683 bytes, 20 paths) describing its playground and OAuth surface — saved verbatim to openapi/_original/. The v2 REST API itself publishes NO OpenAPI (api host root paths 503/404; docs are Slate-rendered HTML).
+- id: pagination-page-number
+  conforms: true
+  evidence: page / per_page request parameters with total_results / pages (watch events) and total_companies (prospecting) in responses — docs v2.
+- id: webhook-signature-hmac
+  conforms: true
+  evidence: Webhook deliveries carry an X-GD-Signature header verified with the per-account `secret` returned by PUT /v2/companies/watch/callback — docs v2 Watch Companies API.
+- id: gdpr
+  conforms: true
+  evidence: https://www.globaldatabase.com/gdpr publishes a Legitimate Interests Assessment and opt-out/suppression process; the pricing FAQ cites the ICO registration https://ico.org.uk/ESDWebPages/Entry/ZA526915; https://www.globaldatabase.com/processors names the processors (Hetzner Online GmbH, DE; Global Database SRL, MD under UK SCCs).
+- id: iso-27701
+  conforms: true
+  evidence: 'Provider announcement "Global Database''s ISO 27701 Certification" at https://www.globaldatabase.com/global-databases-iso-27701-certification-a-step-forward-in-data-security-and-privacy-excellence-1 (200). A press claim, not a certificate; no trust center or certificate number is published.'
+# ---- domain-standard signatures (0.12.0 domain_standard_conformance; reward-only, read from the contract/reference) ----
+- id: confirmation-of-payee
+  conforms: true
+  domain: payments
+  evidence: 'The Bank Verification API is a Verification of Payee surface: POST https://api.globaldatabase.com/v2/bank-verification "Submit a Verification of Payee request and receive a structured verification result"; response carries account_id_scheme IBAN, bank_id_scheme BICFI, response_matched, response_reason_code FULL_MATCH (VoP/CoP match-result vocabulary) — docs v2, Bank Verification API section.'
+- id: nace-rev2
+  conforms: true
+  domain: company-classification
+  evidence: 'GET https://api.globaldatabase.com/v2/nomenclatures/nace serves the NACE Rev. 2 activity classification used in prospecting filters and company profiles (docs v2, Nomenclatures API "NACE Rev. 2").'
+- id: isic
+  conforms: true
+  domain: company-classification
+  evidence: 'GET https://api.globaldatabase.com/v2/nomenclatures/isic serves the UN ISIC classification; GET /v2/nomenclatures/sic/{country_code} serves country SIC codes (docs v2).'
+- id: iso-3166
+  conforms: true
+  domain: reference-data
+  evidence: 'country_code is an ISO alpha-2 code throughout (docs v2 Company Data table "Country Code (ISO)"; KYB regions path /v2/nomenclatures/kyb/country/{country_code_iso2}/regions).'
+- id: lei
+  conforms: false
+  evidence: 'LEI is mentioned as a use case for bank verification ("Confirm legal-entity identity (LEI/TXID) before onboarding") but no LEI field or GLEIF lookup is documented in the reference; not asserted.'
+compliance_pointer_emitted: true
+compliance_pointer_note: 'type: Compliance points here on the strength of the GDPR/LIA page, the ICO registration and the ISO 27701 announcement. No SOC 2 / ISO 27001 certificate, trust center or VPAT is published (probe-security-programs.py: trust=none, vdp=none).'
