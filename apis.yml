@@ -33,6 +33,21 @@ tags:
 - Compliance
 - Business Verification
 - Beneficial Ownership
+- Financial
+- Credit Risk
+- Data Enrichment
+- Prospecting
+- Webhook
+- MCP
+- AI Agents
+- United Kingdom
+tags_raw:
+- Company
+- Company Data
+- KYB
+- Compliance
+- Business Verification
+- Beneficial Ownership
 - Financials
 - Credit Risk
 - Data Enrichment
@@ -54,6 +69,16 @@ apis:
   humanURL: https://api.globaldatabase.com/docs/v2/
   baseURL: https://api.globaldatabase.com/v2/
   tags:
+  - Company Data
+  - KYB
+  - Financial
+  - Ownership
+  - Credit Reports
+  - Bank Verification
+  - Prospecting
+  - Enrichment
+  - Webhook
+  tags_raw:
   - Company Data
   - KYB
   - Financials
@@ -135,6 +160,12 @@ apis:
   humanURL: https://api.globaldatabase.com/docs/v2/#regis-api
   baseURL: https://api.globaldatabase.com/v2/ai/
   tags:
+  - Artificial Intelligence
+  - Natural-Language
+  - SSE
+  - Company Data
+  - Registry Data
+  tags_raw:
   - AI
   - Natural Language
   - SSE
