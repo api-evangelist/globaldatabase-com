@@ -1,0 +1,88 @@
+openapi: 3.2.0
+info:
+  title: Globaldatabase Com Nomenclature API
+  version: 0.1.0
+  description: 'Operations tagged Nomenclature across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://mcp.globaldatabase.com
+  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
+tags:
+- name: Nomenclature
+paths:
+  /api/nomenclature:
+    post:
+      summary: Api Nomenclature
+      operationId: api_nomenclature_api_nomenclature_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NomenclatureRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Nomenclature
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    NomenclatureRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        nomenclature_type:
+          type: string
+          title: Nomenclature Type
+        parent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent
+      type: object
+      required:
+      - api_key
+      - nomenclature_type
+      title: NomenclatureRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+x-refined-from:
+- globaldatabase-com-mcp-playground-openapi.json
+- globaldatabase-com-mcp-playground-openapi.yml

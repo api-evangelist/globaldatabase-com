@@ -1,0 +1,119 @@
+openapi: 3.2.0
+info:
+  title: Globaldatabase Com Autocomplete API
+  version: 0.1.0
+  description: 'Operations tagged Autocomplete across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://mcp.globaldatabase.com
+  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
+tags:
+- name: Autocomplete
+paths:
+  /api/autocomplete:
+    post:
+      summary: Api Autocomplete
+      operationId: api_autocomplete_api_autocomplete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutocompleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Autocomplete
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AutocompleteRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+        country_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Code
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        registration_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Registration Number
+        vat_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vat Number
+        ticker:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ticker
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        linkedin:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Linkedin
+      type: object
+      required:
+      - api_key
+      title: AutocompleteRequest
+x-refined-from:
+- globaldatabase-com-mcp-playground-openapi.json
+- globaldatabase-com-mcp-playground-openapi.yml

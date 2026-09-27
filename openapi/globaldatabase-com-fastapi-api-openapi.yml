@@ -1,0 +1,26 @@
+openapi: 3.2.0
+info:
+  title: Globaldatabase Com Fast API
+  version: 0.1.0
+  description: 'Operations tagged FastAPI across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://mcp.globaldatabase.com
+  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
+tags:
+- name: FastAPI
+paths:
+  /:
+    get:
+      summary: Landing
+      operationId: landing__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - FastAPI
+x-refined-from:
+- globaldatabase-com-mcp-playground-openapi.json
+- globaldatabase-com-mcp-playground-openapi.yml

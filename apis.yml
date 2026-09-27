@@ -8,6 +8,23 @@ description: >-
   web-technology insights. It is delivered through a token-authenticated v2 REST API with signed change
   webhooks, an SSE-streamed natural-language query endpoint (Regis), a hosted OAuth 2.1 MCP server with
   23 read-only tools and three provider-published Agent Skills, an n8n node, bulk data feeds and CRM connectors.
+deliveryModel:
+  model: saas
+  license_evidence:
+    not_product:
+    - global-database/mcp-server
+    - global-database/n8n-nodes-globaldatabase
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
+  method: derived
 image: https://mcp.globaldatabase.com/static/logo.png
 url: https://raw.githubusercontent.com/api-evangelist/globaldatabase-com/refs/heads/main/apis.yml
 x-type: company
@@ -33,7 +50,7 @@ tags:
 - Compliance
 - Business Verification
 - Beneficial Ownership
-- Financial
+- Finance
 - Credit Risk
 - Data Enrichment
 - Prospecting
@@ -56,6 +73,7 @@ tags_raw:
 - MCP
 - AI Agents
 - United Kingdom
+- Financial
 apis:
 - name: Global Database API (v2)
   description: >-
@@ -71,7 +89,7 @@ apis:
   tags:
   - Company Data
   - KYB
-  - Financial
+  - Finance
   - Ownership
   - Credit Reports
   - Bank Verification
@@ -88,6 +106,7 @@ apis:
   - Prospecting
   - Enrichment
   - Webhooks
+  - Financial
   properties:
   - type: Documentation
     url: https://api.globaldatabase.com/docs/v2/
@@ -111,44 +130,6 @@ apis:
     url: data-model/globaldatabase-com-data-model.yml
   - type: Conformance
     url: conformance/globaldatabase-com-conformance.yml
-  image: https://mcp.globaldatabase.com/static/logo.png
-- name: Global Database MCP Server
-  description: >-
-    Hosted remote Model Context Protocol server (streamable HTTP) exposing 23 read-only tools over company
-    profiles, financials, ownership, digital insights, people search and contact enrichment, prospecting
-    and KYB registry lookups, plus gdb:// reference resources and five prompts. OAuth 2.1 with PKCE and
-    dynamic client registration; RFC 8414 / RFC 9728 metadata on the host. Listed in the Official MCP
-    Registry (com.globaldatabase/mcp), Smithery and Glama; distribution metadata and three Agent Skills
-    at github.com/global-database/mcp-server. The host also serves a FastAPI-generated OpenAPI describing
-    its browser playground and OAuth pages (captured under openapi/).
-  humanURL: https://mcp.globaldatabase.com/
-  baseURL: https://mcp.globaldatabase.com/mcp
-  tags:
-  - MCP
-  - AI Agents
-  - Company Data
-  - KYB
-  - OAuth 2.1
-  properties:
-  - type: OpenAPI
-    url: openapi/globaldatabase-com-mcp-playground-openapi.yml
-  - type: OpenAPI
-    url: https://mcp.globaldatabase.com/openapi.json
-    name: FastAPI-generated OpenAPI 3.1.0 for the MCP host (playground + OAuth pages), as served
-  - type: MCPServer
-    url: mcp/globaldatabase-com-mcp.yml
-  - type: ToolCrosswalk
-    url: mcp/globaldatabase-com-tool-crosswalk.yml
-  - type: OAuthScopes
-    url: scopes/globaldatabase-com-scopes.yml
-  - type: Overlay
-    url: overlays/globaldatabase-com-mcp-playground-overlay.yaml
-  - type: AgenticAccess
-    url: agentic-access/globaldatabase-com-agentic-access.yml
-  - type: Documentation
-    url: https://api.globaldatabase.com/docs/v2/#mcp-server
-  - type: SourceCode
-    url: https://github.com/global-database/mcp-server
   image: https://mcp.globaldatabase.com/static/logo.png
 - name: Regis AI Query API
   description: >-
@@ -181,12 +162,295 @@ apis:
   - type: RateLimits
     url: rate-limits/globaldatabase-com-rate-limits.yml
   image: https://mcp.globaldatabase.com/static/logo.png
+- aid: globaldatabase-com:globaldatabase-com-autocomplete-api
+  name: Global Database Autocomplete API
+  description: The Autocomplete API from Global Database — 1 operation(s) for autocomplete.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Autocomplete
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-autocomplete-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-company-by-linkedin-api
+  name: Global Database Company By Linkedin API
+  description: >-
+    The Company By Linkedin API from Global Database — 1 operation(s) for company by linkedin.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company By Linkedin
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-company-by-linkedin-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-company-by-url-api
+  name: Global Database Company By Url API
+  description: The Company By Url API from Global Database — 1 operation(s) for company by url.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company By Url
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-company-by-url-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-company-details-api
+  name: Global Database Company Details API
+  description: The Company Details API from Global Database — 1 operation(s) for company details.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company Details
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-company-details-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-company-financials-api
+  name: Global Database Company Financials API
+  description: The Company Financials API from Global Database — 1 operation(s) for company financials.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company Financials
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-company-financials-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-company-ownership-api
+  name: Global Database Company Ownership API
+  description: The Company Ownership API from Global Database — 1 operation(s) for company ownership.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Company Ownership
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-company-ownership-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-fastapi-api
+  name: Global Database Fast API
+  description: The FastAPI API from Global Database — 1 operation(s) for fastapi.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - FastAPI
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-fastapi-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-health-api
+  name: Global Database Health API
+  description: The Health API from Global Database — 1 operation(s) for health.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-health-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-nomenclature-api
+  name: Global Database Nomenclature API
+  description: The Nomenclature API from Global Database — 1 operation(s) for nomenclature.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Nomenclature
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-nomenclature-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-oauth-api
+  name: Global Database OAuth API
+  description: The Oauth API from Global Database — 7 operation(s) for oauth.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-oauth-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-playground-api
+  name: Global Database Playground API
+  description: The Playground API from Global Database — 1 operation(s) for playground.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Playground
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-playground-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-prospecting-api
+  name: Global Database Prospecting API
+  description: The Prospecting API from Global Database — 1 operation(s) for prospecting.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Prospecting
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-prospecting-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-verify-token-api
+  name: Global Database Verify Token API
+  description: The Verify Token API from Global Database — 1 operation(s) for verify token.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Verify Token
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-verify-token-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-well-known-api
+  name: Global Database .well Known API
+  description: The .well Known API from Global Database — 1 operation(s) for .well known.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - .well Known
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-well-known-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/globaldatabase-com-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/globaldatabase-com-scopes.yml
+  - type: AgenticAccess
+    url: agentic-access/globaldatabase-com-agentic-access.yml
+  - type: Documentation
+    url: https://api.globaldatabase.com/docs/v2/#mcp-server
+  - type: SourceCode
+    url: https://github.com/global-database/mcp-server
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/globaldatabase-com-mcp-playground-overlay.yaml
 - type: Website
   url: https://www.globaldatabase.com/
 - type: DeveloperPortal

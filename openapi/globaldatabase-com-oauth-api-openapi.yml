@@ -1,0 +1,394 @@
+openapi: 3.2.0
+info:
+  title: Globaldatabase Com OAuth API
+  version: 0.1.0
+  description: 'Operations tagged Oauth across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://mcp.globaldatabase.com
+  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
+tags:
+- name: OAuth
+paths:
+  /oauth/login:
+    get:
+      summary: Login Form
+      operationId: login_form_oauth_login_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+    post:
+      summary: Login Submit
+      description: 'Authenticate a session with an API key instead of signing in.
+
+
+        No page offers this any more — the sign-in screen has one button and no
+
+        input. It stays because the flow needs a way to be driven without a
+
+        browser: the test suite uses it, and so does any internal tooling that
+
+        already holds a key. Nothing links here, so nothing invites a user to
+
+        paste a credential into a form.'
+      operationId: login_submit_oauth_login_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_login_submit_oauth_login_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/sso/start:
+    get:
+      summary: Sso Start
+      operationId: sso_start_oauth_sso_start_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/sso/callback:
+    get:
+      summary: Sso Callback
+      operationId: sso_callback_oauth_sso_callback_get
+      parameters:
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Code
+      - name: state
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: State
+      - name: error
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Error
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/trial:
+    get:
+      summary: Trial Form
+      operationId: trial_form_oauth_trial_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Email
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+    post:
+      summary: Trial Submit
+      description: Create the account and email a code. Nothing is signed in yet.
+      operationId: trial_submit_oauth_trial_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_trial_submit_oauth_trial_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/trial/verify:
+    post:
+      summary: Trial Verify
+      description: 'The code screen''s only job, and the point of the whole detour.
+
+
+        A correct code authenticates the person here — no password, no second tab,
+
+        no link that outlives this session. From the platform token onwards the path
+
+        is the one everybody else takes, so the consent screen they land on is the
+
+        same screen, showing the same account and the same access.'
+      operationId: trial_verify_oauth_trial_verify_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_trial_verify_oauth_trial_verify_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/consent:
+    get:
+      summary: Consent Form
+      operationId: consent_form_oauth_consent_get
+      parameters:
+      - name: session
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+    post:
+      summary: Consent Submit
+      operationId: consent_submit_oauth_consent_post
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_consent_submit_oauth_consent_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+  /oauth/deny:
+    post:
+      summary: Consent Deny
+      operationId: consent_deny_oauth_deny_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_consent_deny_oauth_deny_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - OAuth
+components:
+  schemas:
+    Body_trial_submit_oauth_trial_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        email:
+          type: string
+          title: Email
+          default: ''
+      type: object
+      required:
+      - session
+      title: Body_trial_submit_oauth_trial_post
+    Body_trial_verify_oauth_trial_verify_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        email:
+          type: string
+          title: Email
+          default: ''
+        code:
+          type: string
+          title: Code
+          default: ''
+      type: object
+      required:
+      - session
+      title: Body_trial_verify_oauth_trial_verify_post
+    Body_consent_submit_oauth_consent_post:
+      properties:
+        session:
+          type: string
+          title: Session
+      type: object
+      required:
+      - session
+      title: Body_consent_submit_oauth_consent_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_login_submit_oauth_login_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - session
+      - api_key
+      title: Body_login_submit_oauth_login_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_consent_deny_oauth_deny_post:
+      properties:
+        session:
+          type: string
+          title: Session
+      type: object
+      required:
+      - session
+      title: Body_consent_deny_oauth_deny_post
+x-refined-from:
+- globaldatabase-com-mcp-playground-openapi.json
+- globaldatabase-com-mcp-playground-openapi.yml
