@@ -1,11 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Globaldatabase Com OAuth API
+  title: Fast OAuth API
   version: 0.1.0
-  description: 'Operations tagged Oauth across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://mcp.globaldatabase.com
-  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
 tags:
 - name: OAuth
 paths:
@@ -311,32 +307,6 @@ components:
       required:
       - session
       title: Body_trial_submit_oauth_trial_post
-    Body_trial_verify_oauth_trial_verify_post:
-      properties:
-        session:
-          type: string
-          title: Session
-        email:
-          type: string
-          title: Email
-          default: ''
-        code:
-          type: string
-          title: Code
-          default: ''
-      type: object
-      required:
-      - session
-      title: Body_trial_verify_oauth_trial_verify_post
-    Body_consent_submit_oauth_consent_post:
-      properties:
-        session:
-          type: string
-          title: Session
-      type: object
-      required:
-      - session
-      title: Body_consent_submit_oauth_consent_post
     HTTPValidationError:
       properties:
         detail:
@@ -346,19 +316,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_login_submit_oauth_login_post:
+    Body_consent_submit_oauth_consent_post:
       properties:
         session:
           type: string
           title: Session
-        api_key:
-          type: string
-          title: Api Key
       type: object
       required:
       - session
-      - api_key
-      title: Body_login_submit_oauth_login_post
+      title: Body_consent_submit_oauth_consent_post
     ValidationError:
       properties:
         loc:
@@ -380,6 +346,36 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_trial_verify_oauth_trial_verify_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        email:
+          type: string
+          title: Email
+          default: ''
+        code:
+          type: string
+          title: Code
+          default: ''
+      type: object
+      required:
+      - session
+      title: Body_trial_verify_oauth_trial_verify_post
+    Body_login_submit_oauth_login_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - session
+      - api_key
+      title: Body_login_submit_oauth_login_post
     Body_consent_deny_oauth_deny_post:
       properties:
         session:
@@ -389,6 +385,3 @@ components:
       required:
       - session
       title: Body_consent_deny_oauth_deny_post
-x-refined-from:
-- globaldatabase-com-mcp-playground-openapi.json
-- globaldatabase-com-mcp-playground-openapi.yml

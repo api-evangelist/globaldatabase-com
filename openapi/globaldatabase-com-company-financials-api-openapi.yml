@@ -1,11 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Globaldatabase Com Company Financials API
+  title: Fast Company Financials API
   version: 0.1.0
-  description: 'Operations tagged Company Financials across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://mcp.globaldatabase.com
-  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
 tags:
 - name: Company Financials
 paths:
@@ -35,6 +31,27 @@ paths:
       - Company Financials
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -61,27 +78,3 @@ components:
       - year
       - api_key
       title: CompanyFinancialsRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-x-refined-from:
-- globaldatabase-com-mcp-playground-openapi.json
-- globaldatabase-com-mcp-playground-openapi.yml

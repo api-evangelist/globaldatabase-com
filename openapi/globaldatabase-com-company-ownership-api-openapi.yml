@@ -1,11 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Globaldatabase Com Company Ownership API
+  title: Fast Company Ownership API
   version: 0.1.0
-  description: 'Operations tagged Company Ownership across 2 of this provider''s published API definitions: globaldatabase-com-mcp-playground-openapi.json, globaldatabase-com-mcp-playground-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://mcp.globaldatabase.com
-  description: 'Global Database MCP server host (FastAPI app serving the MCP endpoint, its OAuth 2.1 authorization server, and the browser playground). Added by API Evangelist: the original document carries no servers[] because FastAPI emits host-relative paths.'
 tags:
 - name: Company Ownership
 paths:
@@ -35,19 +31,6 @@ paths:
       - Company Ownership
 components:
   schemas:
-    CompanyOwnershipRequest:
-      properties:
-        company_id:
-          type: string
-          title: Company Id
-        api_key:
-          type: string
-          title: Api Key
-      type: object
-      required:
-      - company_id
-      - api_key
-      title: CompanyOwnershipRequest
     HTTPValidationError:
       properties:
         detail:
@@ -78,6 +61,16 @@ components:
       - msg
       - type
       title: ValidationError
-x-refined-from:
-- globaldatabase-com-mcp-playground-openapi.json
-- globaldatabase-com-mcp-playground-openapi.yml
+    CompanyOwnershipRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - api_key
+      title: CompanyOwnershipRequest
