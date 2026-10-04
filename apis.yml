@@ -349,6 +349,8 @@ apis:
   humanURL: https://api.globaldatabase.com/docs/v2/
   baseURL: https://api.globaldatabase.com/v2/
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
