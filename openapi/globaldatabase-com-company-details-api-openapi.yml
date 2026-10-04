@@ -31,15 +31,19 @@ paths:
       - Company Details
 components:
   schemas:
-    HTTPValidationError:
+    CompanyDetailsRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        company_id:
+          type: string
+          title: Company Id
+        api_key:
+          type: string
+          title: Api Key
       type: object
-      title: HTTPValidationError
+      required:
+      - company_id
+      - api_key
+      title: CompanyDetailsRequest
     ValidationError:
       properties:
         loc:
@@ -61,16 +65,12 @@ components:
       - msg
       - type
       title: ValidationError
-    CompanyDetailsRequest:
+    HTTPValidationError:
       properties:
-        company_id:
-          type: string
-          title: Company Id
-        api_key:
-          type: string
-          title: Api Key
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - company_id
-      - api_key
-      title: CompanyDetailsRequest
+      title: HTTPValidationError

@@ -31,6 +31,23 @@ paths:
       - Company Financials
 components:
   schemas:
+    CompanyFinancialsRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        year:
+          type: integer
+          title: Year
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - year
+      - api_key
+      title: CompanyFinancialsRequest
     ValidationError:
       properties:
         loc:
@@ -61,20 +78,3 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    CompanyFinancialsRequest:
-      properties:
-        company_id:
-          type: string
-          title: Company Id
-        year:
-          type: integer
-          title: Year
-        api_key:
-          type: string
-          title: Api Key
-      type: object
-      required:
-      - company_id
-      - year
-      - api_key
-      title: CompanyFinancialsRequest

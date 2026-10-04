@@ -31,15 +31,19 @@ paths:
       - Company By Linkedin
 components:
   schemas:
-    HTTPValidationError:
+    CompanyByLinkedinRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        linkedin_url:
+          type: string
+          title: Linkedin Url
+        api_key:
+          type: string
+          title: Api Key
       type: object
-      title: HTTPValidationError
+      required:
+      - linkedin_url
+      - api_key
+      title: CompanyByLinkedinRequest
     ValidationError:
       properties:
         loc:
@@ -61,16 +65,12 @@ components:
       - msg
       - type
       title: ValidationError
-    CompanyByLinkedinRequest:
+    HTTPValidationError:
       properties:
-        linkedin_url:
-          type: string
-          title: Linkedin Url
-        api_key:
-          type: string
-          title: Api Key
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - linkedin_url
-      - api_key
-      title: CompanyByLinkedinRequest
+      title: HTTPValidationError
