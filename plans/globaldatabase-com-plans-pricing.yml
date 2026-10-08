@@ -44,3 +44,16 @@ metering:
   - 'MCP calls count against the connected account''s quota (mcp landing page).'
 payment: {methods: [VISA, MasterCard, Amex, wire transfer], terms: 'Processed upfront and non-refundable (FAQ).'}
 cancellation: 'Monthly: cancel any time before the billing date. Yearly: through the account manager or support@globaldatabase.com (FAQ).'
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units: []
+  plans:
+  - name: License Our Data (enterprise data licensing)
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
