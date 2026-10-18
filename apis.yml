@@ -94,7 +94,7 @@ apis:
   - Credit Reports
   - Bank Verification
   - Prospecting
-  - Enrichment
+  - Data Enrichment
   - Webhook
   tags_raw:
   - Company Data
