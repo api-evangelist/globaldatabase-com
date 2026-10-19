@@ -92,3 +92,7 @@ components:
       required:
       - api_key
       title: ProspectingRequest
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

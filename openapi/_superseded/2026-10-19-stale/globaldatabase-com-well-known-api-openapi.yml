@@ -1,0 +1,19 @@
+openapi: 3.2.0
+info:
+  title: Fast .well Known API
+  version: 0.1.0
+tags:
+- name: .well Known
+paths:
+  /.well-known/openai-apps-challenge:
+    get:
+      summary: Openai Apps Challenge
+      operationId: openai_apps_challenge__well_known_openai_apps_challenge_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - .well Known

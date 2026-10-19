@@ -445,6 +445,16 @@ apis:
     url: https://api.globaldatabase.com/docs/v2/#mcp-server
   - type: SourceCode
     url: https://github.com/global-database/mcp-server
+- aid: globaldatabase-com:globaldatabase-com-osb-api
+  name: Global Database Osb API
+  description: The Osb API from Global Database — 5 operation(s) for osb.
+  humanURL: https://api.globaldatabase.com/docs/v2/
+  baseURL: https://api.globaldatabase.com/v2/
+  tags:
+  - Osb
+  properties:
+  - type: OpenAPI
+    url: openapi/globaldatabase-com-osb-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

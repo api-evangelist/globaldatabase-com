@@ -1,0 +1,317 @@
+openapi: 3.2.0
+info:
+  title: Fast Osb API
+  version: 0.1.0
+tags:
+- name: Osb
+paths:
+  /osb/v2/catalog:
+    get:
+      summary: Catalog
+      operationId: catalog_osb_v2_catalog_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBasic: []
+      tags:
+      - Osb
+  /osb/v2/service_instances/{instance_id}:
+    put:
+      summary: Provision
+      operationId: provision_osb_v2_service_instances__instance_id__put
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+    patch:
+      summary: Update
+      operationId: update_osb_v2_service_instances__instance_id__patch
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+    delete:
+      summary: Deprovision
+      operationId: deprovision_osb_v2_service_instances__instance_id__delete
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+  /osb/v2/service_instances/{instance_id}/last_operation:
+    get:
+      summary: Last Operation
+      operationId: last_operation_osb_v2_service_instances__instance_id__last_operation_get
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+  /osb/v2/service_instances/{instance_id}/service_bindings/{binding_id}:
+    delete:
+      summary: Bindings
+      operationId: bindings_osb_v2_service_instances__instance_id__service_bindings__binding_id__delete
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      - name: binding_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Binding Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+    put:
+      summary: Bindings
+      operationId: putOsbV2ServiceInstancesByInstanceIdServiceBindingsByBindingId
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      - name: binding_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Binding Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+      x-operation-id-source: normalized
+      x-operation-id-original: bindings_osb_v2_service_instances__instance_id__service_bindings__binding_id__delete
+    get:
+      summary: Bindings
+      operationId: getOsbV2ServiceInstancesByInstanceIdServiceBindingsByBindingId
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      - name: binding_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Binding Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+      x-operation-id-source: normalized
+      x-operation-id-original: bindings_osb_v2_service_instances__instance_id__service_bindings__binding_id__delete
+  /osb/bluemix_v1/service_instances/{instance_id}:
+    put:
+      summary: Set State
+      operationId: set_state_osb_bluemix_v1_service_instances__instance_id__put
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+    get:
+      summary: Get State
+      operationId: get_state_osb_bluemix_v1_service_instances__instance_id__get
+      security:
+      - HTTPBasic: []
+      parameters:
+      - name: instance_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Instance Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Osb
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

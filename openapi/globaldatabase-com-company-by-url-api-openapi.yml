@@ -31,19 +31,6 @@ paths:
       - Company By Url
 components:
   schemas:
-    CompanyByUrlRequest:
-      properties:
-        url:
-          type: string
-          title: Url
-        api_key:
-          type: string
-          title: Api Key
-      type: object
-      required:
-      - url
-      - api_key
-      title: CompanyByUrlRequest
     HTTPValidationError:
       properties:
         detail:
@@ -74,3 +61,20 @@ components:
       - msg
       - type
       title: ValidationError
+    CompanyByUrlRequest:
+      properties:
+        url:
+          type: string
+          title: Url
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - url
+      - api_key
+      title: CompanyByUrlRequest
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

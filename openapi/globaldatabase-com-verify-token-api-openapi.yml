@@ -31,6 +31,15 @@ paths:
       - Verify Token
 components:
   schemas:
+    VerifyTokenRequest:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - api_key
+      title: VerifyTokenRequest
     HTTPValidationError:
       properties:
         detail:
@@ -61,12 +70,7 @@ components:
       - msg
       - type
       title: ValidationError
-    VerifyTokenRequest:
-      properties:
-        api_key:
-          type: string
-          title: Api Key
-      type: object
-      required:
-      - api_key
-      title: VerifyTokenRequest
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

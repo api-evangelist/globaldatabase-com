@@ -294,19 +294,6 @@ paths:
       - OAuth
 components:
   schemas:
-    Body_login_submit_oauth_login_post:
-      properties:
-        session:
-          type: string
-          title: Session
-        api_key:
-          type: string
-          title: Api Key
-      type: object
-      required:
-      - session
-      - api_key
-      title: Body_login_submit_oauth_login_post
     Body_trial_submit_oauth_trial_post:
       properties:
         session:
@@ -337,15 +324,6 @@ components:
       required:
       - session
       title: Body_trial_verify_oauth_trial_verify_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -376,6 +354,15 @@ components:
       required:
       - session
       title: Body_consent_deny_oauth_deny_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Body_consent_submit_oauth_consent_post:
       properties:
         session:
@@ -385,3 +372,20 @@ components:
       required:
       - session
       title: Body_consent_submit_oauth_consent_post
+    Body_login_submit_oauth_login_post:
+      properties:
+        session:
+          type: string
+          title: Session
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - session
+      - api_key
+      title: Body_login_submit_oauth_login_post
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

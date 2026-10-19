@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  title: Fast Company Financials API
+  version: 0.1.0
+tags:
+- name: Company Financials
+paths:
+  /api/company-financials:
+    post:
+      summary: Api Company Financials
+      operationId: api_company_financials_api_company_financials_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyFinancialsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Company Financials
+components:
+  schemas:
+    CompanyFinancialsRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        year:
+          type: integer
+          title: Year
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - year
+      - api_key
+      title: CompanyFinancialsRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

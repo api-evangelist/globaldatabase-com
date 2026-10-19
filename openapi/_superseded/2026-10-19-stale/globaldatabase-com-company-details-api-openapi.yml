@@ -1,0 +1,76 @@
+openapi: 3.2.0
+info:
+  title: Fast Company Details API
+  version: 0.1.0
+tags:
+- name: Company Details
+paths:
+  /api/company-details:
+    post:
+      summary: Api Company Details
+      operationId: api_company_details_api_company_details_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyDetailsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Company Details
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CompanyDetailsRequest:
+      properties:
+        company_id:
+          type: string
+          title: Company Id
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - company_id
+      - api_key
+      title: CompanyDetailsRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

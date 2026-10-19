@@ -17,3 +17,8 @@ paths:
               schema: {}
       tags:
       - Health
+components:
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic

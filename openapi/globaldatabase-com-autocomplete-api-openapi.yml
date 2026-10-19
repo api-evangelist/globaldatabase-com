@@ -31,6 +31,15 @@ paths:
       - Autocomplete
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AutocompleteRequest:
       properties:
         api_key:
@@ -80,15 +89,6 @@ components:
       required:
       - api_key
       title: AutocompleteRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -110,3 +110,7 @@ components:
       - msg
       - type
       title: ValidationError
+  securitySchemes:
+    HTTPBasic:
+      type: http
+      scheme: basic
