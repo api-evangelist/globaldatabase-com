@@ -28,19 +28,6 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
-- slug: globaldatabase-com-microsoft-teams-own
-  label: Microsoft Teams (own)
-  partner: microsoft-teams
-  partner_name: Microsoft Teams (own)
-  category: Microsoft Teams app
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://appsource.microsoft.com/en-us/product/office/WA200012567
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: globaldatabase-com-mcp-registry
   label: MCP Registry
   partner: mcp
@@ -131,5 +118,31 @@
     signal_note: 'participation: the provider lists data products on this marketplace; counts are context'
     detected_by: sweep-data-marketplaces.py
     detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
+- slug: globaldatabase-com-microsoft-teams-own
+  label: Microsoft Teams (own)
+  partner: microsoft-teams
+  partner_name: Microsoft Teams (own)
+  category: Microsoft Teams app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://appsource.microsoft.com/en-us/product/office/WA200012567
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: globaldatabase-com-hubspot-own
+  label: HubSpot (own)
+  partner: hubspot
+  partner_name: HubSpot (own)
+  category: CRM
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://ecosystem.hubspot.com/marketplace/listing/global-database-intelligence-enrichment
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
