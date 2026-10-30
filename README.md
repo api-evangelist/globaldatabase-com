@@ -66,7 +66,151 @@
 
 Global Database (GLOBAL DATA INTELLIGENCE Ltd, UK) is a B2B company-intelligence provider that sources company records directly from 400+ official government registries across 200+ countries — 600M+ company profiles with registry data, officers and shareholders, UBO and group structure, up to 20 years of filed financials, credit reports, bank-account (Verification of Payee) checks, firmographics, contacts and web-technology insights. It is delivered through a token-authenticated v2 REST API with signed change webhooks, an SSE-streamed natural-language query endpoint (Regis), a hosted OAuth 2.1 MCP server with 23 read-only tools and three provider-published Agent Skills, an n8n node, bulk data feeds and CRM connectors.
 
-- Website: https://www.globaldatabase.com/
-- API reference (v2): https://api.globaldatabase.com/docs/v2/
-- MCP server: https://mcp.globaldatabase.com/mcp
-- GitHub: https://github.com/global-database
+**Areas:** Company · Company Data · KYB · Compliance · Business Verification · Beneficial Ownership · Finance · Credit Risk · Data Enrichment · Prospecting · Webhook · MCP
+
+## Global Database on APIs.io
+
+Everything profiled for Global Database is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/globaldatabase-com/](https://apis.io/providers/globaldatabase-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (16)
+
+- [Global Database API (v2)](https://apis.io/apis/globaldatabase-com/global-database-api-v2/) — Token-authenticated REST API over the company-intelligence core: company search and lookup (overview, autocomplete, enrichment by website / LinkedIn /…
+- [Regis AI Query API](https://apis.io/apis/globaldatabase-com/regis-ai-query-api/) — Natural-language question endpoint (POST /v2/ai/query) that runs a server-side agent over the same tool set as the MCP server and streams the result as…
+- [Global Database Autocomplete API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-autocomplete-api/) — The Autocomplete API from Global Database — 1 operation(s) for autocomplete.
+- [Global Database Company By Linkedin API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-company-by-linkedin-api/) — The Company By Linkedin API from Global Database — 1 operation(s) for company by linkedin.
+- [Global Database Company By Url API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-company-by-url-api/) — The Company By Url API from Global Database — 1 operation(s) for company by url.
+- [Global Database Company Details API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-company-details-api/) — The Company Details API from Global Database — 1 operation(s) for company details.
+- [Global Database Company Financials API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-company-financials-api/) — The Company Financials API from Global Database — 1 operation(s) for company financials.
+- [Global Database Company Ownership API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-company-ownership-api/) — The Company Ownership API from Global Database — 1 operation(s) for company ownership.
+- [Global Database Fast API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-fastapi-api/) — The FastAPI API from Global Database — 1 operation(s) for fastapi.
+- [Global Database Health API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-health-api/) — The Health API from Global Database — 1 operation(s) for health.
+- [Global Database Nomenclature API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-nomenclature-api/) — The Nomenclature API from Global Database — 1 operation(s) for nomenclature.
+- [Global Database OAuth API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-oauth-api/) — The Oauth API from Global Database — 7 operation(s) for oauth.
+- [Global Database Playground API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-playground-api/) — The Playground API from Global Database — 1 operation(s) for playground.
+- [Global Database Prospecting API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-prospecting-api/) — The Prospecting API from Global Database — 1 operation(s) for prospecting.
+- [Global Database Verify Token API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-verify-token-api/) — The Verify Token API from Global Database — 1 operation(s) for verify token.
+- [Global Database .well Known API](https://apis.io/apis/globaldatabase-com/globaldatabase-com-well-known-api/) — The .well Known API from Global Database — 1 operation(s) for .well known.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Globaldatabase Com Companies Webhooks](https://apis.io/asyncapis/globaldatabase-com/globaldatabase-com-companies-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Global Database](https://apis.io/servers/globaldatabase-com/global-database/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Globaldatabase Com Agentic Access](https://apis.io/agentic-access/globaldatabase-com/globaldatabase-com-agentic-access/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Globaldatabase Com Mcp Playground Overlay](https://apis.io/overlays/globaldatabase-com/globaldatabase-com-mcp-playground-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Globaldatabase Com Authentication](https://apis.io/security/globaldatabase-com/globaldatabase-com-authentication/)
+- [Globaldatabase Com Domain Security](https://apis.io/security/globaldatabase-com/globaldatabase-com-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Globaldatabase Com Scopes](https://apis.io/scopes/globaldatabase-com/globaldatabase-com-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Globaldatabase Com Plans Pricing](https://apis.io/plans/globaldatabase-com/globaldatabase-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Globaldatabase Com Rate Limits](https://apis.io/rate-limits/globaldatabase-com/globaldatabase-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.globaldatabase.com/)
+- [Documentation](https://api.globaldatabase.com/docs/v2/)
+- [Getting started](https://api.globaldatabase.com/docs/v2/#authentication)
+- [API reference](https://api.globaldatabase.com/docs/v2/)
+- [Pricing](https://www.globaldatabase.com/pricing-products)
+- [Sign up](https://platform.globaldatabase.com/public/signup/free_tier_ai)
+- [Support](https://www.globaldatabase.com/contact-us)
+- [Blog](https://www.globaldatabase.com/blog)
+- [Terms of service](https://www.globaldatabase.com/terms-and-conditions)
+- [Privacy policy](https://www.globaldatabase.com/privacy-notice)
+- [GitHub](https://github.com/global-database)
+
+## API Evangelist rating
+
+**Kin Score 54.0** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 76.7 |
+| Contract quality | 43.1 |
+| Contract governance | 18.2 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 64.3 |
+| Access clarity | 73.7 |
+
+**Agent readiness 54.1** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 47.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/globaldatabase-com/](https://apis.io/providers/globaldatabase-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Global Database: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/globaldatabase-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
